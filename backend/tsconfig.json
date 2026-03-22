@@ -1,0 +1,44 @@
+{
+  "ts-node": {
+    "files": true,
+    "transpoleOnly": true
+  },
+  "compilerOptions": {
+    // === ВЫВОД ===
+    "outDir": "./dist", // Папка для скомпилированных файлов
+    "rootDir": "./src", // Исходная папка с кодом
+    "baseUrl": ".", // Базовый путь для импортов
+    "paths": {
+      "@/*": [
+        "src/*"
+      ] // Алиас для чистых импортов
+    },
+    // === ЦЕЛЕВАЯ СРЕДА ===
+    "target": "ES2021", // Современная версия JS для Node.js
+    "module": "commonjs", // Для Node.js с ESM поддержкой
+    "moduleResolution": "Node", // Разрешение модулей для Node.js
+    "lib": [
+      "ES2021"
+    ], // Только ES, без DOM (бэкенд!)
+    // === НАСТРОЙКИ МОДУЛЕЙ ===
+    "esModuleInterop": true, // Совместимость с CommonJS
+    "allowSyntheticDefaultImports": true, // Разрешить default импорты
+    "resolveJsonModule": true, // Импорт JSON файлов
+    // === ГЕНЕРАЦИЯ ФАЙЛОВ ===
+    "sourceMap": true, // Карты для отладки
+    //   "declaration": true,                  // Генерировать .d.ts файлы
+    //"declarationMap": true, // Карты для деклараций
+    "removeComments": true, // Удалить комментарии в production
+    // === ДОПОЛНИТЕЛЬНО ===
+    "skipLibCheck": true, // Пропустить проверку node_modules
+    "forceConsistentCasingInFileNames": true, // Единый регистр в именах файлов
+    "isolatedModules": true, // Для совместимости с транспиляторами
+    "types": [
+      "node",
+      "express"
+    ]
+  },
+  "include": [
+    "src"
+  ]
+}

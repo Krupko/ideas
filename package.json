@@ -1,0 +1,13 @@
+{
+  "name": "ideanick",
+  "private": true,
+  "version": "0,0,0",
+  "scripts": {
+    "b": "pnpm --filter @ideanick/backend",
+    "w": "pnpm --filter @ideanick/webapp",
+    "types": "concurrently 'pnpm b types' 'pnpm w types'"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
