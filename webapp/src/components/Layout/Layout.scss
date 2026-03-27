@@ -1,0 +1,20 @@
+@use '../../scss/settings/_mixins-flex.scss' as *;
+@use '../../scss/settings/_extend.scss' as *;
+
+
+div {
+  @include flex(flex, center, center);
+  flex-direction: column;
+  font-family: var(--font-bob);
+}
+
+.layout__list {
+  list-style: none;
+  @extend %font-20;
+  @include flex(flex, center, center);
+  flex-direction: column;
+
+  li>a {
+    @extend %font-80;
+  }
+}

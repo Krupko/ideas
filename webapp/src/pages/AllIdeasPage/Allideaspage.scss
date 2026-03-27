@@ -1,0 +1,14 @@
+@use '../../scss/settings/_mixins-flex.scss' as *;
+@use '../../scss/settings/_extend.scss' as *;
+
+.title {
+  @extend %font-80;
+
+  &2 {
+    @extend %font-80;
+  }
+
+  &3 {
+    @extend %font-80;
+  }
+}

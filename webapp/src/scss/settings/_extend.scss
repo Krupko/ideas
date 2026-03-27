@@ -1,0 +1,29 @@
+%font-20 {
+  font: {
+    family: var(--font-rob);
+    size: 20px;
+    weight: 400;
+  }
+
+  color: var(--color-green);
+}
+
+%font-60 {
+  font: {
+    family: var(--font-osw);
+    size: 60px;
+    weight: 400;
+  }
+
+  color:var(--color-brown);
+}
+
+%font-80 {
+  font: {
+    family: var(--font-hex);
+    size: 80px;
+    weight: 400;
+  }
+
+  color:var(--color-red);
+}

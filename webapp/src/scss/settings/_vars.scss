@@ -1,0 +1,25 @@
+:root {
+  // base
+  --font-family: "Montserrat", sans-serif;
+  --font-rob: "JandaHappyDay", sans-serif;
+  --font-osw: 'Oswald';
+  --font-hex: 'Hexcore';
+  --font-bob: 'PlaywriteNZGuidesRegular', sans-serif;
+  --content-width: 1400px;
+  --container-offset: 15px;
+  --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
+
+  // colors
+  --color-white: #fff;
+  --color-black: #000;
+  --color-black-light: #151515;
+  --color-brown: #522e18;
+  --color-red: #b52347;
+  --color-green: #4a928f;
+  --color-title: #353535;
+  --color-trans: transparent;
+
+  // radius
+  --radius5: 5px;
+  --radius15: 15px;
+}

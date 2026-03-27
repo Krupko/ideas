@@ -1,3 +1,4 @@
+import "./Allideaspage.scss";
 import { getViewIdeaRoute } from "../../lib/routes";
 import { trpc } from "../../lib/trpc";
 import { Link } from "react-router-dom";
@@ -15,15 +16,15 @@ export const AllIdeasPage = () => {
 
   return (
     <div>
-      <h1>Просто вывод списка</h1>
+      <h1 className='title'>Просто вывод списка</h1>
       {data?.ideas?.map((idea) => (
-        <div key={idea.age}>
-          <h2>
-            <Link to={getViewIdeaRoute({ ideaNick: idea.age })}>
+        <div key={idea.nick}>
+          <h2 className='title2'>
+            <Link to={getViewIdeaRoute({ ideaNick: idea.nick })}>
               {idea.name}
             </Link>
           </h2>
-          <p>{idea.email}</p>
+          <p className='title3'>{idea.email}</p>
         </div>
       ))}
     </div>

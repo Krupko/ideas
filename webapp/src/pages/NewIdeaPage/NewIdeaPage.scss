@@ -1,0 +1,20 @@
+@use '../../scss/settings/_mixins-flex.scss' as *;
+@use '../../scss/settings/_extend.scss' as *;
+
+.new- {
+  &title {
+    margin-bottom: 80px;
+    @extend %font-80;
+
+  }
+
+  &text {
+    margin-bottom: 60px;
+    @extend %font-80;
+
+  }
+
+  &stat {
+    @extend %font-80;
+  }
+}
