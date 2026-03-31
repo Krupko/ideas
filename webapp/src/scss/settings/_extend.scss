@@ -1,11 +1,21 @@
 %font-20 {
   font: {
-    family: var(--font-rob);
+    family: var(--font-mont);
     size: 20px;
     weight: 400;
   }
 
   color: var(--color-green);
+}
+
+%font-40 {
+  font: {
+    family: var(--font-osw);
+    size: 40px;
+    weight: 400;
+  }
+
+  color:var(--color-pur);
 }
 
 %font-60 {
@@ -20,7 +30,7 @@
 
 %font-80 {
   font: {
-    family: var(--font-hex);
+    family: var(--font-mont);
     size: 80px;
     weight: 400;
   }

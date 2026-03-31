@@ -6,15 +6,24 @@ div {
   @include flex(flex, center, center);
   flex-direction: column;
   font-family: var(--font-bob);
+
+  p {
+    @extend %font-40;
+  }
+
+  hr {
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-red);
+  }
 }
 
 .layout__list {
   list-style: none;
-  @extend %font-20;
   @include flex(flex, center, center);
   flex-direction: column;
 
   li>a {
-    @extend %font-80;
+    @extend %font-20;
   }
 }

@@ -8,6 +8,7 @@ export const Layout = () => {
       <p>
         <b>IdeaNick</b>
       </p>
+
       <ul className='layout__list'>
         <li>
           <Link to={getAllIdeasRoute()}>All Ideas</Link>
@@ -16,7 +17,9 @@ export const Layout = () => {
           <Link to={getNewIdeaRoute()}>New Idea Route</Link>
         </li>
       </ul>
+
       <hr />
+
       <div>
         <Outlet />
       </div>

@@ -2,12 +2,29 @@
   "name": "ideanick",
   "private": true,
   "version": "0,0,0",
+  "type": "module",
   "scripts": {
     "b": "pnpm --filter @ideanick/backend",
     "w": "pnpm --filter @ideanick/webapp",
+    "lint": "pnpm run lint:backend && pnpm run lint:webapp",
+    "lint:backend": "pnpm b lint",
+    "lint:webapp": "pnpm w lint",
     "types": "concurrently 'pnpm b types' 'pnpm w types'"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "@eslint/js": "^9.39.4",
+    "concurrently": "^9.2.1",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^15.15.0",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.2"
   }
 }

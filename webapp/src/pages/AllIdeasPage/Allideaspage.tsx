@@ -13,7 +13,6 @@ export const AllIdeasPage = () => {
   if (isError) {
     return <span>Error:{error.message}</span>;
   }
-
   return (
     <div>
       <h1 className='title'>Просто вывод списка</h1>

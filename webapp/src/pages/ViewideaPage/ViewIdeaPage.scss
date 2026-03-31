@@ -1,0 +1,13 @@
+@use '../../scss/settings/_extend.scss' as *;
+
+.title-view {
+  @extend %font-80;
+}
+
+.tile-view2 {
+  @extend %font-40;
+}
+
+.text-view {
+  @extend %font-20;
+}
