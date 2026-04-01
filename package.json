@@ -6,10 +6,11 @@
   "scripts": {
     "b": "pnpm --filter @ideanick/backend",
     "w": "pnpm --filter @ideanick/webapp",
-    "lint": "pnpm run lint:backend && pnpm run lint:webapp",
-    "lint:backend": "pnpm b lint",
-    "lint:webapp": "pnpm w lint",
-    "types": "concurrently 'pnpm b types' 'pnpm w types'"
+    "lint": "pnpm run lint:b && pnpm run lint:w",
+    "lint:b": "pnpm --filter @ideanick/backend lint",
+    "lint:w": "pnpm --filter @ideanick/webapp lint",
+    "types": "concurrently 'pnpm b types' 'pnpm w types'",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
@@ -23,6 +24,8 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^15.15.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.2"

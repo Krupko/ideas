@@ -1,0 +1,4 @@
+{
+  "packages/*/src/**/*.{js,jsx,ts,tsx}": ["pnpm exec eslint --fix", "pnpm exec prettier --write"],
+  "packages/*/src/**/*.{css,scss,json,md}": ["pnpm exec prettier --write"]
+}
