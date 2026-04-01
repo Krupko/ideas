@@ -1,8 +1,11 @@
 {
-  "*.{js,json,md}": ["pnpm exec prettier --write"],
-  "packages/*/src/**/*.{js,jsx,ts,tsx}": [
+  "backend/src/**/*.{js,jsx,ts,tsx}": [
     "pnpm exec eslint --fix",
     "pnpm exec prettier --write"
   ],
-  "packages/*/src/**/*.{css,scss,json,md}": ["pnpm exec prettier --write"]
+  "webapp/src/**/*.{js,jsx,ts,tsx}": [
+    "pnpm exec eslint --fix",
+    "pnpm exec prettier --write"
+  ],
+  "*.{js,json,md}": ["pnpm exec prettier --write"]
 }

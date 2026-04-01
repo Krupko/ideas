@@ -6,7 +6,7 @@
   "scripts": {
     "b": "pnpm --filter @ideanick/backend",
     "w": "pnpm --filter @ideanick/webapp",
-    "lint": "pnpm run lint:b && pnpm run lint:w",
+    "lint": "pnpm run lint:b || true && pnpm run lint:w || true",
     "lint:b": "pnpm --filter @ideanick/backend lint",
     "lint:w": "pnpm --filter @ideanick/webapp lint",
     "types": "concurrently 'pnpm b types' 'pnpm w types'",

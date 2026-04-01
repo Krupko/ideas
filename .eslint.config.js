@@ -1,81 +1,86 @@
-// eslint.config.js
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import prettier from 'eslint-config-prettier'
-import tseslint from 'typescript-eslint'
+import js from "@eslint/js";
+import tseslint from "typescript-eslint";
+import importPlugin from "eslint-plugin-import";
+import * as tsResolver from "eslint-import-resolver-typescript";
 
-export default tseslint.config(
-  // Игнорируем папки
+export default [
   {
     ignores: [
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/build/**',
-      '**/.next/**',
-      '**/coverage/**',
-      '**/*.min.js',
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/coverage/**",
+      "**/.next/**",
+      "**/out/**",
+      "**/public/**",
+      "**/generated/**",
+      "**/*.min.js",
+      "**/*.min.css",
+      "*/vite.config.ts", // ← исправлено
+      "*/tsconfig*.json", // ← исправлено
     ],
   },
 
-  // Базовая конфигурация для всех файлов
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      import: importPlugin,
     },
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        ...globals.es2021,
-      },
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
+    settings: {
+      "import/resolver": {
+        typescript: {
+          alwaysTryTypes: true,
+          project: [
+            "./backend/tsconfig.json", // ← исправлено
+            "./webapp/tsconfig.json", // ← исправлено
+          ],
+        },
+        node: {
+          extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts"],
         },
       },
     },
     rules: {
-      // React Hooks правила
-      ...reactHooks.configs.recommended.rules,
-
-      // React Refresh правила (только для webapp)
-      'react-refresh/only-export-components': 'off', // Включим отдельно для webapp
-
-      // Общие правила
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
-      'no-debugger': 'warn',
-    },
-  },
-
-  // Специальные правила для webapp (React)
-  {
-    files: ['packages/webapp/**/*.{jsx,tsx}'],
-    rules: {
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
+      "no-console": ["warn", { allow: ["warn", "error", "info"] }],
+      "no-debugger": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
       ],
+      "@typescript-eslint/no-explicit-any": "error",
     },
   },
 
-  // Специальные правила для backend (Node.js)
+  // Переопределения для бэкенда
   {
-    files: ['packages/backend/**/*.{js,ts}'],
-    languageOptions: {
-      globals: {
-        ...globals.node,
-      },
-    },
+    files: ["backend/**/*.ts"], // ← исправлено
     rules: {
-      'no-console': 'off', // В бэкенде console.log разрешен
+      "no-console": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
     },
   },
 
-  // Подключаем Prettier (должен быть последним)
-  prettier,
-)
+  // Переопределения для фронтенда
+  {
+    files: ["webapp/**/*.{ts,tsx}"], // ← исправлено
+    rules: {
+      "@typescript-eslint/explicit-function-return-type": "off",
+    },
+  },
+
+  // Переопределения для тестов
+  {
+    files: ["**/*.test.ts", "**/*.spec.ts", "**/__tests__/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+    },
+  },
+];
