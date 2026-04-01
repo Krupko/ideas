@@ -10,7 +10,8 @@ const ideas = _.times(30, (i) => ({
   text: _.times(30, (j) => `<p>Основной текст раздела ${j} от кандидата ${i}...</p>`).join('\n'),
 }));
 
-const x: number = 'hello';
+const xsx: string = 2345656;
+// console.log(xsx);
 
 const trpc = initTRPC.create();
 
