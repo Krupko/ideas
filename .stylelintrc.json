@@ -1,0 +1,11 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "rules": {
+    "selector-class-pattern": null,
+    "property-no-vendor-prefix": null,
+    "property-no-deprecated": null,
+    "color-named": null,
+    "color-no-invalid-hex": true,
+    "block-no-empty": true
+  }
+}

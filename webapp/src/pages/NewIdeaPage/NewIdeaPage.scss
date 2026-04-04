@@ -1,14 +1,16 @@
-@use '../../scss/settings/_mixins-flex.scss' as *;
-@use '../../scss/settings/_extend.scss' as *;
+@use '../../scss/settings/mixins-flex.scss' as *;
+@use '../../scss/settings/extend.scss' as *;
 
 .new- {
   &title {
     margin-bottom: 80px;
+
     @extend %font-60;
   }
 
   &text {
     margin-bottom: 60px;
+
     @extend %font-40;
   }
 

@@ -13,17 +13,10 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./packages/*/src/*"
-      ]
+      "@backend/*": ["./backend/src/*"],
+      "@webapp/*": ["./webapp/src/*"]
     }
   },
-  "include": [
-    "packages/*/src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "build"
-  ]
+  "include": ["backend/src/**/*", "webapp/src/**/*"],
+  "exclude": ["node_modules", "dist", "build"]
 }

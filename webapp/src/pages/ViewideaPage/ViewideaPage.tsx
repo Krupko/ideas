@@ -1,7 +1,7 @@
-import "./ViewIdeaPage.scss";
-import { useParams } from "react-router-dom";
-import { type ViewIdeaRouteParams } from "../../lib/routes.ts";
-import { trpc } from "../../lib/trpc";
+import './ViewIdeaPage.scss';
+import { useParams } from 'react-router-dom';
+import { type ViewIdeaRouteParams } from '../../lib/routes';
+import { trpc } from '../../lib/trpc';
 
 export const ViewideaPage = () => {
   const { ideaNick } = useParams() as ViewIdeaRouteParams;
@@ -24,11 +24,11 @@ export const ViewideaPage = () => {
 
   return (
     <div>
-      <h1 className='title-view'>* 2 страница *</h1>
-      <h2 className='tile-view2'>{data.idea.name}</h2>
+      <h1 className="title-view">* 2 страница *</h1>
+      <h2 className="tile-view2">{data.idea.name}</h2>
       <p>{data.idea.nick}</p>
       <div>
-        <p className='text-view'>{data.idea.email}</p>
+        <p className="text-view">{data.idea.email}</p>
         <p>Описание идеи</p>
         <p dangerouslySetInnerHTML={{ __html: data.idea.text }} />
       </div>

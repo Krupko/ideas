@@ -1,0 +1,8 @@
+cat > .stylelintignore << 'EOF'
+**/dist/**
+**/build/**
+**/node_modules/**
+**/.next/**
+**/coverage/**
+**/*.min.css
+EOF

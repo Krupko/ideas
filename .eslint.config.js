@@ -1,86 +1,113 @@
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
-import importPlugin from "eslint-plugin-import";
-import * as tsResolver from "eslint-import-resolver-typescript";
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import importPlugin from 'eslint-plugin-import';
+import globals from 'globals';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default [
   {
     ignores: [
-      "**/node_modules/**",
-      "**/dist/**",
-      "**/build/**",
-      "**/coverage/**",
-      "**/.next/**",
-      "**/out/**",
-      "**/public/**",
-      "**/generated/**",
-      "**/*.min.js",
-      "**/*.min.css",
-      "*/vite.config.ts", // ← исправлено
-      "*/tsconfig*.json", // ← исправлено
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/coverage/**',
+      '**/.next/**',
+      '**/out/**',
+      '**/public/**',
+      '**/generated/**',
+      '**/*.min.js',
+      '**/*.min.css',
+      '*/vite.config.ts',
+      '*/tsconfig*.json',
     ],
   },
 
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-
+  // Базовая конфигурация
   {
+    files: ['**/*.ts', '**/*.tsx'],
     plugins: {
+      '@typescript-eslint': tseslint.plugin,
       import: importPlugin,
     },
+    languageOptions: {
+      parser: tseslint.parser,
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
+    },
     settings: {
-      "import/resolver": {
+      'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: [
-            "./backend/tsconfig.json", // ← исправлено
-            "./webapp/tsconfig.json", // ← исправлено
-          ],
         },
         node: {
-          extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts"],
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.d.ts'],
         },
       },
     },
     rules: {
-      "no-console": ["warn", { allow: ["warn", "error", "info"] }],
-      "no-debugger": "error",
-      "@typescript-eslint/no-unused-vars": [
-        "error",
+      ...js.configs.recommended.rules,
+      ...tseslint.configs.recommended.rules,
+      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
+      'no-debugger': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
         {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_",
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
         },
       ],
-      "@typescript-eslint/no-explicit-any": "error",
+      '@typescript-eslint/no-explicit-any': 'error',
     },
   },
 
   // Переопределения для бэкенда
   {
-    files: ["backend/**/*.ts"], // ← исправлено
+    files: ['backend/**/*.ts'],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: join(__dirname, 'backend/tsconfig.json'),
+      },
+    },
     rules: {
-      "no-console": "off",
-      "@typescript-eslint/no-explicit-any": "warn",
+      'no-console': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
 
   // Переопределения для фронтенда
   {
-    files: ["webapp/**/*.{ts,tsx}"], // ← исправлено
+    files: ['webapp/**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: join(__dirname, 'webapp/tsconfig.app.json'),
+      },
+    },
     rules: {
-      "@typescript-eslint/explicit-function-return-type": "off",
+      '@typescript-eslint/explicit-function-return-type': 'off',
     },
   },
 
   // Переопределения для тестов
   {
-    files: ["**/*.test.ts", "**/*.spec.ts", "**/__tests__/**/*.ts"],
+    files: ['**/*.test.ts', '**/*.spec.ts', '**/__tests__/**/*.ts'],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: join(__dirname, 'tsconfig.json'),
+      },
+    },
     rules: {
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-unsafe-argument": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
     },
   },
 ];

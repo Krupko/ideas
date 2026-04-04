@@ -1,5 +1,5 @@
-@use '../../scss/settings/_mixins-flex.scss' as *;
-@use '../../scss/settings/_extend.scss' as *;
+@use '../../scss/settings/mixins-flex.scss' as *;
+@use '../../scss/settings/extend.scss' as *;
 
 .title {
   @extend %font-60;

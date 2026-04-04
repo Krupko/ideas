@@ -1,7 +1,7 @@
 {
   "name": "ideanick",
   "private": true,
-  "version": "0,0,0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "b": "pnpm --filter @ideanick/backend",
@@ -9,13 +9,18 @@
     "lint": "pnpm run lint:b || true && pnpm run lint:w || true",
     "lint:b": "pnpm --filter @ideanick/backend lint",
     "lint:w": "pnpm --filter @ideanick/webapp lint",
+    "lint:staged:js": "eslint . --max-warnings=0",
+    "lint:staged:css": "stylelint --custom-syntax postcss-scss --max-warnings=0",
+    "lint:staged:types": "tsc --noEmit --pretty",
     "types": "concurrently 'pnpm b types' 'pnpm w types'",
+    "lint-fix": "stylelint \"webapp/src/**/*.{css,scss}\" --fix",
+    "stylelint": "stylelint \"webapp/src/**/*.{css,scss}\"",
     "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "concurrently": "^9.2.1",
-    "eslint": "^8.57.1",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
@@ -27,6 +32,9 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
+    "stylelint": "^17.6.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.2"
   }

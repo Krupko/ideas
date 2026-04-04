@@ -1,10 +1,14 @@
 {
   "backend/src/**/*.{js,jsx,ts,tsx}": [
-    "pnpm exec eslint --fix",
+    "pnpm exec eslint --fix --config .eslint.config.js",
     "pnpm exec prettier --write"
   ],
   "webapp/src/**/*.{js,jsx,ts,tsx}": [
-    "pnpm exec eslint --fix",
+    "pnpm exec eslint --fix --config .eslint.config.js",
+    "pnpm exec prettier --write"
+  ],
+  "webapp/src/**/*.{css,scss,sass,less}": [
+    "pnpm exec stylelint --fix",
     "pnpm exec prettier --write"
   ],
   "*.{js,json,md}": ["pnpm exec prettier --write"]

@@ -1,6 +1,6 @@
-import "./Layout.scss";
-import { Link, Outlet } from "react-router-dom";
-import { getAllIdeasRoute, getNewIdeaRoute } from "../../lib/routes";
+import './Layout.scss';
+import { Link, Outlet } from 'react-router-dom';
+import { getAllIdeasRoute, getNewIdeaRoute } from '../../lib/routes';
 
 export const Layout = () => {
   return (
@@ -9,7 +9,7 @@ export const Layout = () => {
         <b>IdeaNick</b>
       </p>
 
-      <ul className='layout__list'>
+      <ul className="layout__list">
         <li>
           <Link to={getAllIdeasRoute()}>All Ideas</Link>
         </li>
