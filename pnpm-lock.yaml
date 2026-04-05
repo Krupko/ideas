@@ -59,6 +59,9 @@ importers:
       stylelint-config-standard-scss:
         specifier: ^17.0.0
         version: 17.0.0(postcss@8.5.8)(stylelint@17.6.0(typescript@5.9.3))
+      stylelint-order:
+        specifier: ^8.1.1
+        version: 8.1.1(stylelint@17.6.0(typescript@5.9.3))
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -2424,6 +2427,11 @@ packages:
     resolution: {integrity: sha512-orRsuYpJVw8LdAwqqLykBj9ecS5/cRHlI5+nvTo8LcCKmzDmqVORXtOIYEEQuL9D4BxtA1lm5isAqzQZCoQ6Eg==}
     engines: {node: '>=4'}
 
+  postcss-sorting@10.0.0:
+    resolution: {integrity: sha512-TXbU+h6vVRW+86c/+ewhWq9k7pr7ijASTnepVhCQiC87zAOTkvB1v2dHyWP+ggstSTX/PNvjzS+IOqzejndz9w==}
+    peerDependencies:
+      postcss: ^8.4.20
+
   postcss-value-parser@4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
 
@@ -2795,6 +2803,12 @@ packages:
     engines: {node: '>=20.19.0'}
     peerDependencies:
       stylelint: ^17.0.0
+
+  stylelint-order@8.1.1:
+    resolution: {integrity: sha512-LqsEB6VggJuu5v10RtkrQsBObcdwBE7GuAOlwfc/LR3VL/w8UqKX2BOLIjhyGt0Gne/njo7gRNGiJAKhfmPMNw==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      stylelint: ^16.18.0 || ^17.0.0
 
   stylelint-scss@7.0.0:
     resolution: {integrity: sha512-H88kCC+6Vtzj76NsC8rv6x/LW8slBzIbyeSjsKVlS+4qaEJoDrcJR4L+8JdrR2ORdTscrBzYWiiT2jq6leYR1Q==}
@@ -5356,6 +5370,10 @@ snapshots:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
+  postcss-sorting@10.0.0(postcss@8.5.8):
+    dependencies:
+      postcss: 8.5.8
+
   postcss-value-parser@4.2.0: {}
 
   postcss@8.5.8:
@@ -5798,6 +5816,12 @@ snapshots:
     dependencies:
       stylelint: 17.6.0(typescript@5.9.3)
       stylelint-config-recommended: 18.0.0(stylelint@17.6.0(typescript@5.9.3))
+
+  stylelint-order@8.1.1(stylelint@17.6.0(typescript@5.9.3)):
+    dependencies:
+      postcss: 8.5.8
+      postcss-sorting: 10.0.0(postcss@8.5.8)
+      stylelint: 17.6.0(typescript@5.9.3)
 
   stylelint-scss@7.0.0(stylelint@17.6.0(typescript@5.9.3)):
     dependencies:

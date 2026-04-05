@@ -1,11 +1,31 @@
 {
   "extends": ["stylelint-config-standard-scss"],
+  "plugins": ["stylelint-order"],
   "rules": {
     "selector-class-pattern": null,
     "property-no-vendor-prefix": null,
     "property-no-deprecated": null,
     "color-named": null,
     "color-no-invalid-hex": true,
-    "block-no-empty": true
+    "block-no-empty": true,
+    "length-zero-no-unit": true,
+    "order/properties-order": [
+      {
+        "groupName": "Блочная модель",
+        "properties": ["display", "flex", "grid", "width", "height", "margin", "padding"]
+      },
+      {
+        "groupName": "Позиционирование",
+        "properties": ["position", "top", "right", "bottom", "left", "z-index"]
+      },
+      {
+        "groupName": "Оформление",
+        "properties": ["background", "border", "border-radius", "box-shadow"]
+      },
+      {
+        "groupName": "Типографика",
+        "properties": ["font", "font-family", "font-size", "font-weight", "color"]
+      }
+    ]
   }
 }

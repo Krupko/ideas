@@ -1,6 +1,6 @@
 packages:
   - backend
   - webapp
-  # - "packages/*"
+
 allowBuilds:
   unrs-resolver: false
