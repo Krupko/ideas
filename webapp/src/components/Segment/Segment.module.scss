@@ -1,0 +1,29 @@
+@use '../../scss/settings/extend.scss' as *;
+@use '../../scss/settings/mixins-flex' as *;
+
+.segment {
+  width: 100%;
+}
+
+.title {
+  color: var(--color-red);
+
+  @extend %font-80;
+  @include flex(flex, center, center);
+}
+
+.description {
+  color: var(--color-brown);
+
+  @extend %font-40;
+  @include flex(flex, center, center);
+
+  margin: {
+    botom: 10px;
+  }
+}
+
+.content {
+  @extend %font-20;
+  @include flex(flex, center, center);
+}

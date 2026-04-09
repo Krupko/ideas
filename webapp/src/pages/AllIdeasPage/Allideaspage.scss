@@ -1,14 +1,6 @@
 @use '../../scss/settings/mixins-flex.scss' as *;
 @use '../../scss/settings/extend.scss' as *;
 
-.title {
+.link-list {
   @extend %font-60;
-
-  &2 {
-    @extend %font-20;
-  }
-
-  &3 {
-    @extend %font-20;
-  }
 }

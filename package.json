@@ -6,11 +6,11 @@
   "scripts": {
     "b": "pnpm --filter @ideanick/backend",
     "w": "pnpm --filter @ideanick/webapp",
-    "lint": "pnpm run lint:b || true && pnpm run lint:w || true",
+    "lint": "concurrently 'pnpm run lint:b' 'pnpm run lint:w'",
     "lint:b": "pnpm --filter @ideanick/backend lint",
     "lint:w": "pnpm --filter @ideanick/webapp lint",
     "lint:staged:js": "eslint . --max-warnings=0",
-    "lint:staged:css": "stylelint --custom-syntax postcss-scss --max-warnings=0",
+    "lint:staged:css": "stylelint 'webapp/src/**/*.{css,scss}' --custom-syntax postcss-scss --max-warnings=0",
     "lint:staged:types": "tsc --noEmit --pretty",
     "types": "concurrently 'pnpm b types' 'pnpm w types'",
     "lint-fix": "stylelint \"webapp/src/**/*.{css,scss}\" --fix",

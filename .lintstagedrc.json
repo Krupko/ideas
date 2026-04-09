@@ -8,7 +8,7 @@
     "pnpm exec prettier --write"
   ],
   "webapp/src/**/*.{css,scss,sass,less}": [
-    "pnpm exec stylelint --fix",
+    "pnpm exec stylelint --fix --custom-syntax postcss-scss --max-warnings=0",
     "pnpm exec prettier --write"
   ],
   "*.{js,json,md}": ["pnpm exec prettier --write"]

@@ -5,6 +5,7 @@ import * as routes from '../lib/routes';
 import { AllIdeasPage } from '../pages/AllIdeasPage/Allideaspage';
 import { ViewideaPage } from '../pages/ViewideaPage/ViewideaPage';
 import { NewIdeaPage } from '../pages/NewIdeaPage/NewIdeaPage';
+import { FormPage } from '../pages/FormPage/FormPage';
 import { Layout } from '../components/Layout/Layout';
 
 export const App = () => {
@@ -19,6 +20,7 @@ export const App = () => {
               element={<ViewideaPage />}
             />
             <Route path={routes.getNewIdeaRoute()} element={<NewIdeaPage />} />
+            <Route path={routes.getFormPage()} element={<FormPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

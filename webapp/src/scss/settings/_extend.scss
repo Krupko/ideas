@@ -11,7 +11,7 @@
 %font-40 {
   font: {
     family: var(--font-osw);
-    size: 40px;
+    size: clamp(18px, calc(11.068px + 1.507vw), 40px);
     weight: 400;
   }
 
@@ -21,19 +21,15 @@
 %font-60 {
   font: {
     family: var(--font-osw);
-    size: 60px;
+    size: clamp(32px, calc(23.178px + 1.918vw), 60px);
     weight: 400;
   }
-
-  color: var(--color-brown);
 }
 
 %font-80 {
   font: {
     family: var(--font-mont);
-    size: 80px;
+    size: clamp(48px, calc(37.918px + 2.192vw), 80px);
     weight: 400;
   }
-
-  color: var(--color-red);
 }
