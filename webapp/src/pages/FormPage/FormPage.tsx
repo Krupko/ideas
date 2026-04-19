@@ -1,15 +1,21 @@
-import { useState } from 'react';
 import './FormPage';
 import { Segment } from '../../components/Segment/Segment';
 import { Input } from '../../components/Input/Input';
-import { Textarea } from '../../components/Textaria/Textaria';
+import { Textarea } from '../../components/Textarea/Textarea';
+import { useFormik } from 'formik';
+import { type FormValues } from './types';
 
 export function FormPage() {
-  const [state, setState] = useState<Record<string, string>>({
-    name: '',
-    nick: '',
-    description: '',
-    text: '',
+  const formik = useFormik<FormValues>({
+    initialValues: {
+      name: '',
+      nick: '',
+      description: '',
+      text: '',
+    },
+    onSubmit: (values: FormValues) => {
+      console.info('Submitted', values);
+    },
   });
 
   return (
@@ -17,14 +23,13 @@ export function FormPage() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          console.info('Submitted', state);
+          formik.handleSubmit();
         }}
       >
-        <Input name="name" label="Name" state={state} setState={setState} />
-        <Input name="nick" label="Nick" state={state} setState={setState} />
-        <Input name="description" label="description" state={state} setState={setState} />
-        <Textarea name="text" label="text" state={state} setState={setState} />
-
+        <Input name="name" label="Name" formik={formik} />
+        <Input name="nick" label="Nick" formik={formik} />
+        <Input name="description" label="description" formik={formik} />
+        <Textarea name="text" label="text" formik={formik} />
         <button type="submit">Create Idea</button>
       </form>
     </Segment>
