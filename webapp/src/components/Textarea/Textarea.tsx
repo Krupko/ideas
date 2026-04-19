@@ -1,6 +1,6 @@
 import { type FormComponentProps } from '../../pages/FormPage/types';
 
-import './Textaria.scss';
+import './Textarea.scss';
 
 export const Textarea = ({ name, label, formik }: FormComponentProps) => {
   const value = formik.values[name];
