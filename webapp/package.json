@@ -17,10 +17,13 @@
     "@trpc/client": "^11.13.4",
     "@trpc/react-query": "^11.13.4",
     "formik": "^2.4.9",
+    "formik-validator-zod": "^2.2.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.13.1",
-    "sass": "^1.98.0"
+    "sass": "^1.98.0",
+    "zod": "^4.3.6",
+    "zod-formik-adapter": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^24.12.0",

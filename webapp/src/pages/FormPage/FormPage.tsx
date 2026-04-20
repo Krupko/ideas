@@ -4,6 +4,8 @@ import { Input } from '../../components/Input/Input';
 import { Textarea } from '../../components/Textarea/Textarea';
 import { useFormik } from 'formik';
 import { type FormValues } from './types';
+import { z } from 'zod';
+import { toFormikValidationSchema } from 'zod-formik-adapter';
 
 export function FormPage() {
   const formik = useFormik<FormValues>({
@@ -13,32 +15,25 @@ export function FormPage() {
       description: '',
       text: '',
     },
-    validate: (values) => {
-      const error: Partial<typeof values> = {};
-      if (!values.name) {
-        error.name = 'Напишите имя';
-      }
-      if (!values.nick) {
-        error.nick = 'Нужен ник';
-      } else if (!values.nick.match(/^[a-z0-9-]+$/)) {
-        error.nick = 'Соблюдай правильность написания';
-      }
-      if (!values.description) {
-        error.description = 'Нужно описание';
-      }
-      if (!values.text) {
-        error.text = 'Нужен текст';
-      } else if (values.text.length < 7) {
-        error.text = 'Тексе не менее 7';
-      }
+    validationSchema: toFormikValidationSchema(
+      z.object({
+        name: z.string().min(3, 'Не менее 3 символов'),
+        nick: z
+          .string()
+          .min(3, 'Не менее 3 символов')
+          .regex(/^[a-z0-9-]+$/, 'Строчные буквы'),
+        description: z.string().min(3, 'Описание обязательно'),
+        text: z.string().min(7, 'Не менее 7 символов'),
+      })
+    ),
 
-      return error;
-    },
     onSubmit: (values: FormValues) => {
       console.info('Submitted', values);
     },
   });
+
   console.log(formik);
+
   return (
     <Segment title="СТРАНИЦА ФОРМЫ" size={2} description="">
       <form
