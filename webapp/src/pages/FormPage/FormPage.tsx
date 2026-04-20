@@ -13,11 +13,32 @@ export function FormPage() {
       description: '',
       text: '',
     },
+    validate: (values) => {
+      const error: Partial<typeof values> = {};
+      if (!values.name) {
+        error.name = 'Напишите имя';
+      }
+      if (!values.nick) {
+        error.nick = 'Нужен ник';
+      } else if (!values.nick.match(/^[a-z0-9-]+$/)) {
+        error.nick = 'Соблюдай правильность написания';
+      }
+      if (!values.description) {
+        error.description = 'Нужно описание';
+      }
+      if (!values.text) {
+        error.text = 'Нужен текст';
+      } else if (values.text.length < 7) {
+        error.text = 'Тексе не менее 7';
+      }
+
+      return error;
+    },
     onSubmit: (values: FormValues) => {
       console.info('Submitted', values);
     },
   });
-
+  console.log(formik);
   return (
     <Segment title="СТРАНИЦА ФОРМЫ" size={2} description="">
       <form
@@ -30,6 +51,7 @@ export function FormPage() {
         <Input name="nick" label="Nick" formik={formik} />
         <Input name="description" label="description" formik={formik} />
         <Textarea name="text" label="text" formik={formik} />
+        {!formik.isValid && <div style={{ color: 'red' }}>Заполнено неправильно</div>}
         <button type="submit">Create Idea</button>
       </form>
     </Segment>

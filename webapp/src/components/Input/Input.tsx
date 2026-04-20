@@ -3,6 +3,7 @@ import { type FormComponentProps } from '../../pages/FormPage/types';
 
 export const Input = ({ name, label, formik }: FormComponentProps) => {
   const value = formik.values[name];
+  const error = formik.errors[name] as string | undefined;
 
   return (
     <div className="input-wrapper">
@@ -17,6 +18,7 @@ export const Input = ({ name, label, formik }: FormComponentProps) => {
         id={name as string}
         name={name as string}
       />
+      {error && <div style={{ color: 'red' }}>{error}</div>}
     </div>
   );
 };
