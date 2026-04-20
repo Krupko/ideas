@@ -51,7 +51,9 @@ export function FormPage() {
         <Input name="nick" label="Nick" formik={formik} />
         <Input name="description" label="description" formik={formik} />
         <Textarea name="text" label="text" formik={formik} />
-        {!formik.isValid && <div style={{ color: 'red' }}>Заполнено неправильно</div>}
+        {!formik.isValid && !!formik.submitCount && (
+          <div style={{ color: 'red' }}>Заполнено неправильно</div>
+        )}
         <button type="submit">Create Idea</button>
       </form>
     </Segment>

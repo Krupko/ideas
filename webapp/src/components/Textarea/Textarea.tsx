@@ -5,6 +5,7 @@ import './Textarea.scss';
 export const Textarea = ({ name, label, formik }: FormComponentProps) => {
   const value = formik.values[name];
   const error = formik.errors[name] as string | undefined;
+  const touched = formik.touched[name];
 
   return (
     <div style={{ marginBottom: 10 }}>
@@ -14,11 +15,14 @@ export const Textarea = ({ name, label, formik }: FormComponentProps) => {
         onChange={(e) => {
           void formik.setFieldValue(name, e.target.value);
         }}
+        onBlur={() => {
+          formik.setFieldTouched(name);
+        }}
         value={value}
         name={name as string}
         id={name as string}
       />
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {!!touched && !!error && <div style={{ color: 'red' }}>{error}</div>}
     </div>
   );
 };
