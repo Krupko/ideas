@@ -17,13 +17,27 @@ export function FormPage() {
     },
     validationSchema: toFormikValidationSchema(
       z.object({
-        name: z.string().min(3, 'Не менее 3 символов'),
+        name: z
+          .string()
+          .or(z.undefined())
+          .transform((val) => val ?? '')
+          .refine((val) => val.length >= 3, 'Не менее 3 символов'),
         nick: z
           .string()
-          .min(3, 'Не менее 3 символов')
-          .regex(/^[a-z0-9-]+$/, 'Строчные буквы'),
-        description: z.string().min(3, 'Описание обязательно'),
-        text: z.string().min(7, 'Не менее 7 символов'),
+          .or(z.undefined())
+          .transform((val) => val ?? '')
+          .refine((val) => val.length >= 3, 'Не менее 3 символов')
+          .refine((val) => /^[a-z0-9-]+$/.test(val), 'Только строчные буквы, цифры и дефис'),
+        description: z
+          .string()
+          .or(z.undefined())
+          .transform((val) => val ?? '')
+          .refine((val) => val.length >= 3, 'Описание обязательно'),
+        text: z
+          .string()
+          .or(z.undefined())
+          .transform((val) => val ?? '')
+          .refine((val) => val.length >= 7, 'Не менее 7 символов'),
       })
     ),
 
