@@ -4,10 +4,16 @@ import { Input } from '../../components/Input/Input';
 import { Textarea } from '../../components/Textarea/Textarea';
 import { useFormik } from 'formik';
 import { type FormValues } from './types';
-import { z } from 'zod';
+import { zCreateIdeaTrpcInput } from '../../.../../../../backend/src/router/createIdea/input'; // eslint-disable-line @typescript-eslint/no-restricted-imports
 import { toFormikValidationSchema } from 'zod-formik-adapter';
+import { trpc } from '../../lib/trpc';
+import { useState } from 'react';
 
 export function FormPage() {
+  const [successMessageVisible, setSucessMeessageVisible] = useState(false);
+  const [submittingError, setSubmittingError] = useState<string | null>(null);
+
+  const createIdea = trpc.createIdea.useMutation();
   const formik = useFormik<FormValues>({
     initialValues: {
       name: '',
@@ -15,38 +21,26 @@ export function FormPage() {
       description: '',
       text: '',
     },
-    validationSchema: toFormikValidationSchema(
-      z.object({
-        name: z
-          .string()
-          .or(z.undefined())
-          .transform((val) => val ?? '')
-          .refine((val) => val.length >= 3, 'Не менее 3 символов'),
-        nick: z
-          .string()
-          .or(z.undefined())
-          .transform((val) => val ?? '')
-          .refine((val) => val.length >= 3, 'Не менее 3 символов')
-          .refine((val) => /^[a-z0-9-]+$/.test(val), 'Только строчные буквы, цифры и дефис'),
-        description: z
-          .string()
-          .or(z.undefined())
-          .transform((val) => val ?? '')
-          .refine((val) => val.length >= 3, 'Описание обязательно'),
-        text: z
-          .string()
-          .or(z.undefined())
-          .transform((val) => val ?? '')
-          .refine((val) => val.length >= 7, 'Не менее 7 символов'),
-      })
-    ),
+    validationSchema: toFormikValidationSchema(zCreateIdeaTrpcInput),
 
-    onSubmit: (values: FormValues) => {
-      console.info('Submitted', values);
+    onSubmit: async (values: FormValues) => {
+      try {
+        await createIdea.mutateAsync(values);
+
+        formik.resetForm();
+        setSucessMeessageVisible(true);
+        setTimeout(() => {
+          setSucessMeessageVisible(false);
+        }, 3000);
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Неизвестная ошибка';
+        setSubmittingError(errorMessage);
+        setTimeout(() => {
+          setSubmittingError(null);
+        }, 3000);
+      }
     },
   });
-
-  console.log(formik);
 
   return (
     <Segment title="СТРАНИЦА ФОРМЫ" size={2} description="">
@@ -63,7 +57,14 @@ export function FormPage() {
         {!formik.isValid && !!formik.submitCount && (
           <div style={{ color: 'red' }}>Заполнено неправильно</div>
         )}
-        <button type="submit">Create Idea</button>
+
+        {!!submittingError && <div style={{ color: 'red' }}>{submittingError}</div>}
+
+        {successMessageVisible && <div style={{ color: 'green' }}>Запись добавлена</div>}
+
+        <button type="submit" disabled={formik.isSubmitting}>
+          {formik.isSubmitting ? 'Отправляется...' : 'Отправка формы'}
+        </button>
       </form>
     </Segment>
   );

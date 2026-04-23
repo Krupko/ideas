@@ -81,7 +81,7 @@ export default [
     },
   },
 
-  // Переопределения для фронтенда
+  // Переопределения для фронтенда (webapp)
   {
     files: ['webapp/**/*.{ts,tsx}'],
     languageOptions: {
@@ -92,10 +92,22 @@ export default [
     },
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              // Запрещаем всё из backend, кроме файлов с именем input
+              group: ['**/backend/**', '!**/backend/**/input'],
+              message: 'Из backend разрешен импорт только файлов "input" или типов (import type).',
+              // Разрешаем импорт типов (import type) из любого места backend
+              allowTypeImports: true,
+            },
+          ],
+        },
+      ],
     },
-  },
-
-  // Переопределения для тестов
+  }, // Переопределения для тестов
   {
     files: ['**/*.test.ts', '**/*.spec.ts', '**/__tests__/**/*.ts'],
     languageOptions: {

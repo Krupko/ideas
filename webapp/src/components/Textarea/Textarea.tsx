@@ -21,6 +21,7 @@ export const Textarea = ({ name, label, formik }: FormComponentProps) => {
         value={value}
         name={name as string}
         id={name as string}
+        disabled={formik.isSubmitting}
       />
       {!!touched && !!error && <div style={{ color: 'red' }}>{error}</div>}
     </div>

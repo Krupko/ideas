@@ -21,6 +21,7 @@ export const Input = ({ name, label, formik }: FormComponentProps) => {
         value={value}
         id={name as string}
         name={name as string}
+        disabled={formik.isSubmitting}
       />
       {!!touched && !!error && <div style={{ color: 'red' }}>{error}</div>}
     </div>
