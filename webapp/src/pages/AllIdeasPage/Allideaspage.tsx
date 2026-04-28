@@ -27,7 +27,7 @@ export const AllIdeasPage = () => {
               {idea.name}
             </Link>
           }
-          description={idea.email}
+          description={idea.description}
         ></Segment>
       ))}
     </Segment>

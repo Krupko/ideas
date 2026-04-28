@@ -1,6 +1,6 @@
 import { trpc } from '../Lib/trpc';
 import { getIdeasTrpcRoute } from './getIdeas/getideas';
-import { getIdeaTrpcRoute } from './getIdea/geridea';
+import { getIdeaTrpcRoute } from './getIdea/getidea';
 import { createIdeaTrpcRoute } from './createIdea/createIdea';
 
 export const trpcRouter = trpc.router({

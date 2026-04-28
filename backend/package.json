@@ -3,13 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only --exit-child --rs ./src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only --exit-child --watch ./.env --rs ./src/index.ts",
     "build": "rimraf ./dist && tsc --build ./tsconfig.json",
     "start": "tsx ./src/index.ts",
     "pmd": "prisma migrate dev",
+    "pgc": "prisma generate",
     "types": "tsc --noEmit --project ./tsconfig.json",
     "lint": "pnpm exec eslint src --cache --cache-location ./node_modules/.cache/.eslintcache",
-    "prettify": "prettier --log-level warn --cache --write '{*.ts,src/**/*.ts}' '!**/{node_modules,dist}/**/*'"
+    "prettify": "prettier --log-level warn --cache --write '{*.ts,src/**/*.ts}' '!**/{node_modules,dist}/**/*'",
+    "prepare": "pnpm pgc"
   },
   "prisma": {
     "schema": "./src/prisma/schema.prisma"

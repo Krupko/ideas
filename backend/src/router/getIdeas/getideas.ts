@@ -1,9 +1,13 @@
-import _ from 'lodash';
-import { ideas } from '../../Lib/ideas';
 import { trpc } from '../../Lib/trpc';
 
-export const getIdeasTrpcRoute = trpc.procedure.query(() => {
-  return {
-    ideas: ideas.map((idea) => _.pick(idea, ['nick', 'name', 'email'])),
-  };
+export const getIdeasTrpcRoute = trpc.procedure.query(async ({ ctx }) => {
+  const ideas = await ctx.prisma.idea.findMany({
+    select: {
+      id: true,
+      nick: true,
+      name: true,
+      description: true,
+    },
+  });
+  return { ideas };
 });
