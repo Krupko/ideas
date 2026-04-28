@@ -27,7 +27,7 @@ export function FormPage() {
       try {
         await createIdea.mutateAsync(values);
 
-        formik.resetForm();
+        formik.resetForm(); //Сброс значений
         setSucessMeessageVisible(true);
         setTimeout(() => {
           setSucessMeessageVisible(false);

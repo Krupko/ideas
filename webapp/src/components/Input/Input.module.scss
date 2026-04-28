@@ -1,0 +1,27 @@
+.wrapper {
+  padding: 10px;
+  border: 2px solid palevioletred;
+  border-radius: 30px;
+  margin-bottom: 30px;
+}
+
+.input {
+  padding: 20px;
+  border: 7px solid purple;
+  border-radius: 20px;
+  color: steelbluel;
+  color: peru;
+  outline: 0;
+
+  &:focus {
+    border-color: greenyellow;
+  }
+
+  &:invalid {
+    border-color: firebrick;
+  }
+}
+
+.error {
+  color: red;
+}
