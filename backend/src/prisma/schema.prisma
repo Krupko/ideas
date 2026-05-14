@@ -6,10 +6,19 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id        String   @id @default(uuid())
+  nick      String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
 model Idea {
-  id          String @id @default(uuid())
-  nick        String @unique
+  id          String   @id @default(uuid())
+  nick        String   @unique
   name        String
   description String
   text        String
+  email       String?
+  createdAt   DateTime @default(now())
 }

@@ -20,8 +20,9 @@ export default [
       '**/generated/**',
       '**/*.min.js',
       '**/*.min.css',
-      '*/vite.config.ts',
+      '**/vite.config.ts',
       '*/tsconfig*.json',
+      '**/prisma.config.ts',
     ],
   },
 
@@ -98,7 +99,12 @@ export default [
           patterns: [
             {
               // Запрещаем всё из backend, кроме файлов с именем input
-              group: ['**/backend/**', '!**/backend/**/input'],
+              group: [
+                '**/backend/**',
+                '!**/backend/**/input',
+                '!**/backend/**/*input*',
+                '!**/backend/**/input.ts',
+              ],
               message: 'Из backend разрешен импорт только файлов "input" или типов (import type).',
               // Разрешаем импорт типов (import type) из любого места backend
               allowTypeImports: true,

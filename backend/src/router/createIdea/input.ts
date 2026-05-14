@@ -22,4 +22,9 @@ export const zCreateIdeaTrpcInput = z.object({
     .or(z.undefined())
     .transform((val) => val ?? '')
     .refine((val) => val.length >= 7, 'Не менее 7 символов'),
+  email: z
+    .string()
+    .or(z.undefined())
+    .transform((val) => val ?? '')
+    .refine((val) => val.length >= 7, 'Не менее 7 символов'),
 });

@@ -3,27 +3,30 @@ import { Segment } from '../../components/Segment/Segment';
 import { Input } from '../../components/Input/Input';
 import { Textarea } from '../../components/Textarea/Textarea';
 import { useFormik } from 'formik';
-import { type FormValues } from './types';
+import { type IdeaFormValues } from './types';
 import { zCreateIdeaTrpcInput } from '../../.../../../../backend/src/router/createIdea/input'; // eslint-disable-line @typescript-eslint/no-restricted-imports
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { trpc } from '../../lib/trpc';
 import { useState } from 'react';
+import { Alert } from '../../components/Alert/Alert';
+import { Button } from '../../components/Button/Button';
 
 export function FormPage() {
   const [successMessageVisible, setSucessMeessageVisible] = useState(false);
   const [submittingError, setSubmittingError] = useState<string | null>(null);
 
   const createIdea = trpc.createIdea.useMutation();
-  const formik = useFormik<FormValues>({
+  const formik = useFormik<IdeaFormValues>({
     initialValues: {
       name: '',
       nick: '',
       description: '',
       text: '',
+      email: '',
     },
     validationSchema: toFormikValidationSchema(zCreateIdeaTrpcInput),
 
-    onSubmit: async (values: FormValues) => {
+    onSubmit: async (values: IdeaFormValues) => {
       try {
         await createIdea.mutateAsync(values);
 
@@ -53,18 +56,17 @@ export function FormPage() {
         <Input name="name" label="Name" formik={formik} />
         <Input name="nick" label="Nick" formik={formik} />
         <Input name="description" label="description" formik={formik} />
+        <Input name="email" label="email" formik={formik} />
         <Textarea name="text" label="text" formik={formik} />
         {!formik.isValid && !!formik.submitCount && (
           <div style={{ color: 'red' }}>Заполнено неправильно</div>
         )}
 
-        {!!submittingError && <div style={{ color: 'red' }}>{submittingError}</div>}
+        {!!submittingError && <Alert color="red">{submittingError}</Alert>}
 
-        {successMessageVisible && <div style={{ color: 'green' }}>Запись добавлена</div>}
+        {successMessageVisible && <Alert color="green">Идея добавлена успешно!</Alert>}
 
-        <button type="submit" disabled={formik.isSubmitting}>
-          {formik.isSubmitting ? 'Отправляется...' : 'Отправка формы'}
-        </button>
+        <Button loading={formik.isSubmitting}>Отправка формы</Button>
       </form>
     </Segment>
   );

@@ -1,8 +1,9 @@
 import { type FormComponentProps } from '../../pages/FormPage/types';
+import { type IdeaFormValues } from '../../pages/FormPage/types';
 
 import './Textarea.scss';
 
-export const Textarea = ({ name, label, formik }: FormComponentProps) => {
+export const Textarea = ({ name, label, formik }: FormComponentProps<IdeaFormValues>) => {
   const value = formik.values[name];
   const error = formik.errors[name] as string | undefined;
   const touched = formik.touched[name];

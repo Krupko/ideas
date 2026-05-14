@@ -7,6 +7,7 @@ import { ViewideaPage } from '../pages/ViewideaPage/ViewideaPage';
 import { NewIdeaPage } from '../pages/NewIdeaPage/NewIdeaPage';
 import { FormPage } from '../pages/FormPage/FormPage';
 import { Layout } from '../components/Layout/Layout';
+import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 
 export const App = () => {
   return (
@@ -15,6 +16,7 @@ export const App = () => {
         <Routes>
           <Route element={<Layout />}>
             <Route path={routes.getAllIdeasRoute()} element={<AllIdeasPage />} />
+            <Route path={routes.getSignUpRoute()} element={<SignUpPage />}></Route>
             <Route
               path={routes.getViewIdeaRoute(routes.viewIdeaRouteParams)}
               element={<ViewideaPage />}

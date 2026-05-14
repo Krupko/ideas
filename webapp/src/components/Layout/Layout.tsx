@@ -1,6 +1,6 @@
 import './Layout.scss';
 import { Link, Outlet } from 'react-router-dom';
-import { getAllIdeasRoute, getNewIdeaRoute, getFormPage } from '../../lib/routes';
+import { getAllIdeasRoute, getNewIdeaRoute, getFormPage, getSignUpRoute } from '../../lib/routes';
 
 export const Layout = () => {
   return (
@@ -18,6 +18,9 @@ export const Layout = () => {
         </li>
         <li>
           <Link to={getFormPage()}>СТРАНИЦА ФОРМЫ</Link>
+        </li>
+        <li>
+          <Link to={getSignUpRoute()}>СТРАНИЦА РЕГИСТРАЦИИ</Link>
         </li>
       </ul>
 

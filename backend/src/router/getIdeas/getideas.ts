@@ -7,7 +7,13 @@ export const getIdeasTrpcRoute = trpc.procedure.query(async ({ ctx }) => {
       nick: true,
       name: true,
       description: true,
+      email: true,
+      createdAt: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
     },
   });
+  console.log(ideas);
   return { ideas };
 });

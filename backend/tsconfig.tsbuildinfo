@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/trpc.ts"],"version":"5.9.3"}
+{"root":["./src/index.ts","./src/test-db.ts","./src/Lib/ctx.ts","./src/Lib/ideas.ts","./src/Lib/trpc.ts","./src/router/router.ts","./src/router/createIdea/createIdea.ts","./src/router/createIdea/input.ts","./src/router/getIdea/getidea.ts","./src/router/getIdeas/getideas.ts","./src/router/signUp/SignUp.ts","./src/router/signUp/input.ts"],"version":"5.9.3"}

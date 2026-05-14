@@ -1,18 +1,20 @@
-import { prisma } from './Lib/prisma';
+import { createAppContext } from './Lib/ctx';
 
 async function testConnection() {
+  const ctx = createAppContext();
   try {
-    await prisma.$connect();
+    await ctx.prisma.$connect();
     console.log('✅ Подключение к БД успешно');
 
     // Проверка таблицы Idea
-    const count = await prisma.idea.count();
+    const count = await ctx.prisma.idea.count();
     console.log(`✅ Таблица Idea доступна. Записей: ${count}`);
 
-    await prisma.$disconnect();
+    await ctx.prisma.$disconnect();
     process.exit(0);
   } catch (error) {
     console.error('❌ Ошибка подключения:', error);
+    await ctx.prisma.$disconnect();
     process.exit(1);
   }
 }
