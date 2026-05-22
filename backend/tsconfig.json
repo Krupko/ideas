@@ -37,7 +37,8 @@
     "moduleResolution": "NodeNext",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      // "@/*": ["src/*"],
+      "@/*": ["./src/*"]
     },
     "types": ["node", "express"]
   },

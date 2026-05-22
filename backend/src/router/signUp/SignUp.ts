@@ -1,6 +1,7 @@
-import crypto from 'crypto';
 import { trpc } from '../../Lib/trpc';
 import { zSignUpTrpcInput } from './input';
+import { getPasswordHash } from '../../utils/getPasswordHash';
+import { signJWT } from '../../utils/signJWT';
 
 export const signUpTrpcRoute = trpc.procedure
   .input(zSignUpTrpcInput)
@@ -13,11 +14,12 @@ export const signUpTrpcRoute = trpc.procedure
     if (exUser) {
       throw new Error('User с таким ником уже существует');
     }
-    await ctx.prisma.user.create({
+    const user = await ctx.prisma.user.create({
       data: {
         nick: input.nick,
-        password: crypto.createHash('sha256').update(input.password).digest('hex'),
+        password: getPasswordHash(input.password),
       },
     });
-    return true;
+    const token = signJWT(user.id);
+    return { token };
   });
