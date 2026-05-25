@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import importPlugin from 'eslint-plugin-import';
+import nodePlugin from 'eslint-plugin-n';
 import globals from 'globals';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -32,6 +33,7 @@ export default [
     plugins: {
       '@typescript-eslint': tseslint.plugin,
       import: importPlugin,
+      n: nodePlugin,
     },
     languageOptions: {
       parser: tseslint.parser,
@@ -54,6 +56,14 @@ export default [
       ...js.configs.recommended.rules,
       ...tseslint.configs.recommended.rules,
       'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
+      'no-process-env': 'error',
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: '[object.type=MetaProperty][property.name=env]',
+          message: `Use instead import {env} from 'lib/env'`,
+        },
+      ],
       'no-debugger': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',

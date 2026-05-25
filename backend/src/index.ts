@@ -4,6 +4,7 @@ import express from 'express';
 import { trpcRouter } from './router/router';
 import { applyTrpcToExpressApp } from './Lib/trpc';
 import { createAppContext } from './Lib/ctx';
+import { env } from './Lib/env';
 import { applyPassportToExpressApp } from './Lib/passport';
 
 void (async () => {
@@ -22,8 +23,8 @@ void (async () => {
     await applyTrpcToExpressApp(expressApp, ctx, trpcRouter);
 
     await new Promise<void>((resolve) => {
-      expressApp.listen(3000, () => {
-        console.info('Listening at http://localhost:3000');
+      expressApp.listen(env.PORT, () => {
+        console.info(`Listening at http://localhost:${env.PORT}`);
         resolve();
       });
     });
