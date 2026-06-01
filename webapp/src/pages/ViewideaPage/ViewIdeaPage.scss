@@ -11,3 +11,9 @@
 .text-view {
   @extend %font-20;
 }
+
+.author-name {
+  @extend %font-20;
+
+  color: steelblue;
+}

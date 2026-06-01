@@ -4,7 +4,7 @@ import { Input } from '../../components/Input/Input';
 import { Textarea } from '../../components/Textarea/Textarea';
 import { useFormik } from 'formik';
 import { type IdeaFormValues } from './types';
-import { zCreateIdeaTrpcInput } from '../../.../../../../backend/src/router/createIdea/input'; // eslint-disable-line @typescript-eslint/no-restricted-imports
+import { zCreateIdeaTrpcInput } from '../../.../../../../backend/src/router/createIdea/input';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import { trpc } from '../../lib/trpc';
 import { useState } from 'react';

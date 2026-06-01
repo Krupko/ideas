@@ -10,6 +10,7 @@ import { Layout } from '../components/Layout/Layout';
 import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
 import { SignInPage } from '../pages/SignInPage/SignInPage';
 import { SignOutPage } from '../pages/SignOutPage/SignOutPage';
+import { EditIdeaPage } from '../pages/EditIdeaPage/EditIdeaPage';
 
 export const App = () => {
   return (
@@ -24,6 +25,10 @@ export const App = () => {
             <Route
               path={routes.getViewIdeaRoute(routes.viewIdeaRouteParams)}
               element={<ViewideaPage />}
+            />
+            <Route
+              path={routes.getEditIdeaRoute(routes.editIdeaRouteParams)}
+              element={<EditIdeaPage />}
             />
             <Route path={routes.getNewIdeaRoute()} element={<NewIdeaPage />} />
             <Route path={routes.getFormPage()} element={<FormPage />} />

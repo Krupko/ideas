@@ -110,10 +110,11 @@ export default [
             {
               // Запрещаем всё из backend, кроме файлов с именем input
               group: [
-                '**/backend/**',
-                '!**/backend/**/input',
-                '!**/backend/**/*input*',
-                '!**/backend/**/input.ts',
+                '**/backend/**/!(*input*)',
+                // '**/backend/**',
+                // '!**/backend/**/input',
+                // '!**/backend/**/*input*',
+                // '!**/backend/**/input.ts',
               ],
               message: 'Из backend разрешен импорт только файлов "input" или типов (import type).',
               // Разрешаем импорт типов (import type) из любого места backend

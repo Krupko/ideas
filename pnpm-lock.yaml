@@ -195,6 +195,9 @@ importers:
       formik-validator-zod:
         specifier: ^2.2.0
         version: 2.2.0(formik@2.4.9(@types/react@19.2.14)(react@19.2.4))(zod@4.3.6)
+      lodash:
+        specifier: ^4.17.23
+        version: 4.17.23
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -217,6 +220,9 @@ importers:
       '@types/js-cookie':
         specifier: ^3.0.6
         version: 3.0.6
+      '@types/lodash':
+        specifier: ^4.17.24
+        version: 4.17.24
       '@types/node':
         specifier: ^24.12.0
         version: 24.12.0
