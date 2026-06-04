@@ -20,6 +20,7 @@ export const SignUpPage = () => {
       password: '',
       passwordAgain: '',
     },
+
     validationSchema: zSignUpTrpcInput
       .extend({ passwordAgain: z.string().min(1) })
       .superRefine((val, ctx) => {
@@ -31,6 +32,7 @@ export const SignUpPage = () => {
           });
         }
       }),
+
     onSubmit: async (values) => {
       const { token } = await signUp.mutateAsync(values);
       Cookies.set('token', token, { expires: 99999 });
@@ -39,6 +41,7 @@ export const SignUpPage = () => {
     },
     resetOnSuccess: false,
   });
+
   return (
     <Segment title="Зарегистрироваться">
       <form onSubmit={formik.handleSubmit}>
