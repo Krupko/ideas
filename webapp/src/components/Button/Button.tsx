@@ -3,13 +3,8 @@ import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import css from './Button.module.scss';
 
-export const Button = ({
-  children,
-  loading = false,
-}: {
-  children: React.ReactNode;
-  loading?: boolean;
-}) => {
+export type ButtonProps = { children: React.ReactNode; loading?: boolean };
+export const Button = ({ children, loading = false }: ButtonProps) => {
   return (
     <button
       className={cn({ [css.button]: true, [css.disabled]: loading })}

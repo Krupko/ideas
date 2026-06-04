@@ -1,6 +1,3 @@
-import { useFormik, type FormikConfig } from 'formik';
-import { withZodSchema } from 'formik-validator-zod';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import Cookies from 'js-cookie';
@@ -9,54 +6,38 @@ import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
 import { Segment } from '../../components/Segment/Segment';
 import { trpc } from '../../lib/trpc';
-import { zSignTrpcInput } from '../../Validation/sign';
 import { getAllIdeasRoute } from '../../lib/routes';
-
-interface SignUpValues {
-  nick: string;
-  password: string;
-  passwordAgain: string;
-}
+import { useForm } from '../../lib/form';
+import { zSignUpTrpcInput } from '@ideanick/backend/src/router/signUp/input';
 
 export const SignUpPage = () => {
   const navigate = useNavigate();
   const trpcUtils = trpc.useUtils();
-  const [submittingError, setSubmittingError] = useState<string | null>(null);
   const signUp = trpc.signUp.useMutation();
-  const formik = useFormik<SignUpValues>({
+  const { formik, buttonProps, alertProps } = useForm({
     initialValues: {
       nick: '',
       password: '',
       passwordAgain: '',
     },
-    validate: withZodSchema(
-      zSignTrpcInput
-        .extend({
-          passwordAgain: z.string().min(1),
-        })
-        .superRefine((val, ctx) => {
-          if (val.password !== val.passwordAgain) {
-            ctx.addIssue({
-              code: 'custom',
-              message: 'Пароли должны совпадать!',
-              path: ['passwordAgain'],
-            });
-          }
-        })
-    ) as unknown as FormikConfig<SignUpValues>['validate'],
-
+    validationSchema: zSignUpTrpcInput
+      .extend({ passwordAgain: z.string().min(1) })
+      .superRefine((val, ctx) => {
+        if (val.password !== val.passwordAgain) {
+          ctx.addIssue({
+            code: 'custom',
+            message: 'Пароли должны быть одинаковы',
+            path: ['passwordAgain'],
+          });
+        }
+      }),
     onSubmit: async (values) => {
-      try {
-        setSubmittingError(null);
-        const { token } = await signUp.mutateAsync(values);
-        Cookies.set('token', token, { expires: 9999 });
-        void trpcUtils.invalidate();
-        navigate(getAllIdeasRoute());
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'Произошла ошибка';
-        setSubmittingError(message);
-      }
+      const { token } = await signUp.mutateAsync(values);
+      Cookies.set('token', token, { expires: 99999 });
+      void trpcUtils.invalidate();
+      navigate(getAllIdeasRoute());
     },
+    resetOnSuccess: false,
   });
   return (
     <Segment title="Зарегистрироваться">
@@ -64,11 +45,8 @@ export const SignUpPage = () => {
         <Input label="Nick" name="nick" formik={formik} />
         <Input label="Password" name="password" type="password" formik={formik} />
         <Input label="Password again" name="passwordAgain" type="password" formik={formik} />
-        {!formik.isValid && !!formik.submitCount && (
-          <Alert color="red">Некоторые поля заполнены неправильно</Alert>
-        )}
-        {submittingError && <Alert color="red">{submittingError}</Alert>}
-        <Button loading={formik.isSubmitting}>Зарегистрироваться</Button>
+        <Alert {...alertProps} />
+        <Button {...buttonProps}>Зарегистрироваться</Button>
       </form>
     </Segment>
   );
