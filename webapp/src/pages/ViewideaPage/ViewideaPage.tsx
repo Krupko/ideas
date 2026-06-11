@@ -15,10 +15,8 @@ export const ViewideaPage = withPageWrapper({
     });
   },
 
-  checkExists: ({ queryResult }) => !!queryResult.data.idea,
-  checkExistsMessage: 'ИДЕЯ НЕ НАЙДЕНА',
-  setProps: ({ queryResult, ctx }) => ({
-    idea: queryResult.data.idea!,
+  setProps: ({ queryResult, checkExists, ctx }) => ({
+    idea: checkExists(queryResult.data.idea, 'ИДЕЯ НЕ НАЙДЕНА'),
     me: ctx.me,
   }),
 })(({ idea, me }) => (

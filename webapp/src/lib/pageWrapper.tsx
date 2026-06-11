@@ -4,6 +4,27 @@ import { useAppContext, type AppContext } from './ctx';
 import React, { useEffect } from 'react';
 import { ErrorPageComponent } from '../components/ErrorPageComponent/ErrorPageComponent';
 import { getAllIdeasRoute } from './routes';
+import { NotFoundPage } from '../pages/NotFoundPage/NotFoundPage';
+
+class CheckExistsError extends Error {
+  constructor(message?: string) {
+    super(message);
+  }
+}
+
+const checkExistsFn = <T,>(value: T, message?: string): NonNullable<T> => {
+  if (!value) {
+    throw new CheckExistsError(message);
+  }
+  return value;
+};
+
+class CheckAccessError extends Error {}
+const checkAccessFn = <T,>(value: T, message?: string): void => {
+  if (!value) {
+    throw new CheckAccessError(message);
+  }
+};
 
 type Props = Record<string, unknown>;
 type QueryResult = UseTRPCQueryResult<unknown, unknown>;
@@ -15,6 +36,12 @@ type HelperProps<TQueryResult extends QueryResult | undefined> = {
   ctx: AppContext;
   queryResult: TQueryResult extends QueryResult ? QuerySuccessResult<TQueryResult> : undefined;
 };
+
+type SetPropsProps<TQueryResult extends QueryResult | undefined> = HelperProps<TQueryResult> & {
+  checkExists: typeof checkExistsFn;
+  checkAccess: typeof checkAccessFn;
+};
+
 /* eslint-disable no-unused-vars */
 type PageWrapperProps<TProps extends Props, TQueryResult extends QueryResult | undefined> = {
   redirectAuthorized?: boolean;
@@ -32,7 +59,7 @@ type PageWrapperProps<TProps extends Props, TQueryResult extends QueryResult | u
   checkExistsMessage?: string;
 
   useQuery?: () => TQueryResult;
-  setProps?: (helperProps: HelperProps<TQueryResult>) => TProps;
+  setProps?: (setPropsProps: SetPropsProps<TQueryResult>) => TProps;
   Page: React.FC<TProps>;
 };
 /* eslint-enable no-unused-vars */
@@ -49,8 +76,8 @@ const PageWrapper = <
   checkAccessTitle = 'Доступ запрещен!',
   checkAccessMessage = 'У вас нет доступа к этой странице',
   checkExists,
-  checkExistsTitle = 'Не найдено',
-  checkExistsMessage = 'Этой страницы не существует',
+  checkExistsTitle,
+  checkExistsMessage,
   useQuery,
   setProps,
   Page,
@@ -68,7 +95,7 @@ const PageWrapper = <
   }, [redirectNeeded, navigate]);
 
   if (queryResult?.isLoading || redirectNeeded) {
-    return <p>Загрузка !!!!!!!!!!!!!!1...</p>;
+    return <p>Загрузка ...</p>;
   }
 
   if (queryResult?.isError) {
@@ -93,12 +120,35 @@ const PageWrapper = <
   if (checkExists) {
     const notExists = !checkExists(helperProps);
     if (notExists) {
-      return <ErrorPageComponent title={checkExistsTitle} message={checkExistsMessage} />;
+      return <NotFoundPage title={checkExistsTitle} message={checkExistsMessage} />;
     }
   }
 
-  const props = setProps?.(helperProps) as TProps;
-  return <Page {...props} />;
+  try {
+    const props = setProps?.({
+      ...helperProps,
+      checkExists: checkExistsFn,
+      checkAccess: checkAccessFn,
+    }) as TProps;
+    return <Page {...props} />;
+  } catch (error) {
+    if (error instanceof CheckExistsError) {
+      return (
+        <ErrorPageComponent
+          title={checkExistsTitle}
+          message={error.message || checkExistsMessage}
+        />
+      );
+    }
+    if (error instanceof CheckAccessError) {
+      return (
+        <ErrorPageComponent
+          title={checkAccessTitle}
+          message={error.message || checkAccessMessage}
+        />
+      );
+    }
+  }
 };
 
 export const withPageWrapper = <

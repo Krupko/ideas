@@ -20,13 +20,13 @@ export const EditIdeaPage = withPageWrapper({
     });
   },
 
-  checkExists: ({ queryResult }) => !!queryResult.data.idea,
-  checkExistsMessage: 'Идея не найдена',
-  checkAccess: ({ queryResult, ctx }) => !!ctx.me && ctx.me.id === queryResult.data.idea?.authorId,
-  checkAccessMessage: 'Редактировать идею может только автор',
-  setProps: ({ queryResult }) => ({
-    idea: queryResult.data.idea!,
-  }),
+  setProps: ({ queryResult, ctx, checkExists, checkAccess }) => {
+    const idea = checkExists(queryResult.data.idea, 'Идея не найдена');
+    checkAccess(ctx.me?.id === idea.authorId, 'Редактировать идею может только автор');
+    return {
+      idea,
+    };
+  },
 })(({ idea }) => {
   const navigate = useNavigate();
   const updateIdea = trpc.updateIdea.useMutation();
