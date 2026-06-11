@@ -3,15 +3,14 @@ import { Link, Outlet } from 'react-router-dom';
 import {
   getAllIdeasRoute,
   getNewIdeaRoute,
-  getFormPage,
   getSignUpRoute,
   getSignInRoute,
   getSignOutRoute,
 } from '../../lib/routes';
-import { trpc } from '../../lib/trpc';
+import { useMe } from '../../lib/ctx';
 
 export const Layout = () => {
-  const { data, isLoading, isFetching, isError } = trpc.getMe.useQuery();
+  const me = useMe();
 
   return (
     <div>
@@ -23,16 +22,14 @@ export const Layout = () => {
         <li>
           <Link to={getAllIdeasRoute()}>All Ideas</Link>
         </li>
-        <li>
-          <Link to={getFormPage()}>СТРАНИЦА ФОРМЫ</Link>
-        </li>
-        {isLoading || isFetching || isError ? null : data?.me ? (
+
+        {me ? (
           <>
             <li>
-              <Link to={getNewIdeaRoute()}>Страница идеи</Link>
+              <Link to={getNewIdeaRoute()}>СТРАНИЦА НОВОЙ ИДЕИ</Link>
             </li>
             <li>
-              <Link to={getSignOutRoute()}>ВЫЙТИ ИЗ АККАУНТА</Link>
+              <Link to={getSignOutRoute()}>ВЫЙТИ ИЗ АККАУНТА - {me.nick}</Link>
             </li>
           </>
         ) : (

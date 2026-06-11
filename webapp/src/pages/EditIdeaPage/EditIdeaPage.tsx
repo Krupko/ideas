@@ -5,17 +5,29 @@ import { Alert } from '../../components/Alert/Alert';
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
 import { Textarea } from '../../components/Textarea/Textarea';
-import type { TrpcRouterOutput } from '@ideanick/backend/src/router/router';
 import { useForm } from '../../lib/form';
 import { zUpdateIdeaTrpcInput } from '@ideanick/backend/src/router/updateIdea/input';
 import { trpc } from '../../lib/trpc';
 import { type EditIdeaRouteParams, getViewIdeaRoute } from '../../lib/routes';
+import { withPageWrapper } from '../../lib/pageWrapper';
 
-const EditIdeaComponent = ({
-  idea,
-}: {
-  idea: NonNullable<TrpcRouterOutput['getIdea']['idea']>;
-}) => {
+export const EditIdeaPage = withPageWrapper({
+  authorizedOnly: true,
+  useQuery: () => {
+    const { ideaNick } = useParams() as EditIdeaRouteParams;
+    return trpc.getIdea.useQuery({
+      ideaNick,
+    });
+  },
+
+  checkExists: ({ queryResult }) => !!queryResult.data.idea,
+  checkExistsMessage: 'Идея не найдена',
+  checkAccess: ({ queryResult, ctx }) => !!ctx.me && ctx.me.id === queryResult.data.idea?.authorId,
+  checkAccessMessage: 'Редактировать идею может только автор',
+  setProps: ({ queryResult }) => ({
+    idea: queryResult.data.idea!,
+  }),
+})(({ idea }) => {
   const navigate = useNavigate();
   const updateIdea = trpc.updateIdea.useMutation();
   const { formik, buttonProps, alertProps } = useForm({
@@ -45,48 +57,4 @@ const EditIdeaComponent = ({
       </form>
     </Segment>
   );
-};
-
-export const EditIdeaPage = () => {
-  const { ideaNick } = useParams() as EditIdeaRouteParams;
-
-  const getIdeaResult = trpc.getIdea.useQuery({
-    ideaNick,
-  });
-
-  const getMeResult = trpc.getMe.useQuery();
-
-  if (
-    getIdeaResult.isLoading ||
-    getIdeaResult.isFetching ||
-    getMeResult.isLoading ||
-    getMeResult.isFetching
-  ) {
-    return <span>Загрузка........</span>;
-  }
-
-  if (getIdeaResult.isError) {
-    return <span>Error:{getIdeaResult.error.message}</span>;
-  }
-
-  if (getMeResult.isError) {
-    return <span>Error: {getMeResult.error.message}</span>;
-  }
-
-  if (!getIdeaResult.data?.idea) {
-    return <span>Идея не найдена</span>;
-  }
-
-  const idea = getIdeaResult.data?.idea;
-  const me = getMeResult.data?.me;
-
-  if (!me) {
-    return <span>Только для авторизованных</span>;
-  }
-
-  if (me.id !== idea.authorId) {
-    return <span>Редактировать идею может только автор</span>;
-  }
-
-  return <EditIdeaComponent idea={idea} />;
-};
+});

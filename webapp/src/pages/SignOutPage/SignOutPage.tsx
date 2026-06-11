@@ -1,17 +1,19 @@
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { getSignInRoute } from '../../lib/routes';
 import { trpc } from '../../lib/trpc';
+import { withPageWrapper } from '../../lib/pageWrapper';
+import { useNavigate } from 'react-router-dom';
+import { getAllIdeasRoute } from '../../lib/routes';
 
-export const SignOutPage = () => {
+export const SignOutPage = withPageWrapper({
+  // redirectAuthorized: true,
+})(() => {
   const navigate = useNavigate();
   const trpcUtils = trpc.useUtils();
   useEffect(() => {
     Cookies.remove('token');
-    void trpcUtils.invalidate().then(() => {
-      navigate(getSignInRoute());
-    });
-  }, []);
+    void trpcUtils.invalidate().then(() => {});
+    navigate(getAllIdeasRoute());
+  }, [navigate, trpcUtils]);
   return <p>Loading...</p>;
-};
+});
