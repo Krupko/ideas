@@ -1,0 +1,19 @@
+@use '../../../scss/settings/extend.scss' as *;
+
+.title-view {
+  @extend %font-80;
+}
+
+.title-view2 {
+  @extend %font-40;
+}
+
+.text-view {
+  @extend %font-20;
+}
+
+.author-name {
+  @extend %font-20;
+
+  color: steelblue;
+}

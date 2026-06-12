@@ -4,7 +4,7 @@ import { useAppContext, type AppContext } from './ctx';
 import React, { useEffect } from 'react';
 import { ErrorPageComponent } from '../components/ErrorPageComponent/ErrorPageComponent';
 import { getAllIdeasRoute } from './routes';
-import { NotFoundPage } from '../pages/NotFoundPage/NotFoundPage';
+import { NotFoundPage } from '../pages/other/NotFoundPage/NotFoundPage';
 
 class CheckExistsError extends Error {
   constructor(message?: string) {

@@ -1,0 +1,6 @@
+@use '../../../scss/settings/mixins-flex.scss' as *;
+@use '../../../scss/settings/extend.scss' as *;
+
+.link-list {
+  @extend %font-60;
+}

@@ -1,5 +1,5 @@
-import { type FormComponentProps } from '../../pages/NewIdeaPage/types';
-import { type IdeaFormValues } from '../../pages/NewIdeaPage/types';
+import { type FormComponentProps } from '../../pages/ideas/NewIdeaPage/types';
+import { type IdeaFormValues } from '../../pages/ideas/NewIdeaPage/types';
 
 import './Textarea.scss';
 

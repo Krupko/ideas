@@ -1,5 +1,5 @@
 import css from './Input.module.scss';
-import { type FormComponentProps } from '../../pages/NewIdeaPage/types';
+import { type FormComponentProps } from '../../pages/ideas/NewIdeaPage/types';
 import { type FormikValues } from 'formik';
 import cn from 'classnames';
 

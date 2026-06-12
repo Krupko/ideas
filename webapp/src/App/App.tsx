@@ -2,17 +2,16 @@ import './App.scss';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { TrpcProvider } from '../lib/trpc';
 import * as routes from '../lib/routes';
-import { AllIdeasPage } from '../pages/AllIdeasPage/Allideaspage';
-import { ViewideaPage } from '../pages/ViewideaPage/ViewideaPage';
-import { NewIdeaPage } from '../pages/NewIdeaPage/NewIdeaPage';
-// import { FormPage } from '../pages/FormPage/FormPage';
+import { AllIdeasPage } from '../pages/ideas/AllIdeasPage/Allideaspage';
+import { ViewideaPage } from '../pages/ideas/ViewideaPage/ViewideaPage';
+import { NewIdeaPage } from '../pages/ideas/NewIdeaPage/NewIdeaPage';
 import { Layout } from '../components/Layout/Layout';
-import { SignUpPage } from '../pages/SignUpPage/SignUpPage';
-import { SignInPage } from '../pages/SignInPage/SignInPage';
-import { SignOutPage } from '../pages/SignOutPage/SignOutPage';
-import { EditIdeaPage } from '../pages/EditIdeaPage/EditIdeaPage';
+import { SignUpPage } from '../pages/auth/SignUpPage/SignUpPage';
+import { SignInPage } from '../pages/auth/SignInPage/SignInPage';
+import { SignOutPage } from '../pages/auth/SignOutPage/SignOutPage';
+import { EditIdeaPage } from '../pages/ideas/EditIdeaPage/EditIdeaPage';
 import { AppContextProvider } from '../lib/ctx';
-import { NotFoundPage } from '../pages/NotFoundPage/NotFoundPage';
+import { NotFoundPage } from '../pages/other/NotFoundPage/NotFoundPage';
 
 export const App = () => {
   return (
