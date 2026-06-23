@@ -6,6 +6,7 @@ import {
   getSignUpRoute,
   getSignInRoute,
   getSignOutRoute,
+  getEditProfileRoute,
 } from '../../lib/routes';
 import { useMe } from '../../lib/ctx';
 
@@ -27,6 +28,9 @@ export const Layout = () => {
           <>
             <li>
               <Link to={getNewIdeaRoute()}>СТРАНИЦА НОВОЙ ИДЕИ</Link>
+            </li>
+            <li>
+              <Link to={getEditProfileRoute()}>РЕДАКТИРОВАТЬ ПРОФИЛЬ</Link>
             </li>
             <li>
               <Link to={getSignOutRoute()}>ВЫЙТИ ИЗ АККАУНТА - {me.nick}</Link>

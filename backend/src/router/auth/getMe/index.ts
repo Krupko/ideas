@@ -1,6 +1,9 @@
-import _ from 'lodash';
+import { toClientMe } from '../../../Lib/models';
 import { trpc } from '../../../Lib/trpc';
 
 export const getMeTrpcRoute = trpc.procedure.query(({ ctx }) => {
-  return { me: ctx.me && _.pick(ctx.me, ['id', 'nick']) };
+  if (!ctx.me) {
+    return { me: null };
+  }
+  return { me: toClientMe(ctx.me) };
 });

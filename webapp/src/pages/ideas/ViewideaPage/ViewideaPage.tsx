@@ -24,7 +24,10 @@ export const ViewideaPage = withPageWrapper({
     {/* <p>{data.idea.nick}</p> */}
     <div>
       <p className="title-view2">Дата поста: {format(idea.createdAt, 'dd-MM-yyyy')}</p>
-      <p className="author-name">Автор: {idea.author.nick}</p>
+      <p className="author-name">
+        Автор: {idea.author.nick}
+        {idea.author.name ? `(${idea.author.name})` : ''}
+      </p>
       <p className="text-view">{idea.email}</p>
       <p>Описание идеи</p>
       <p dangerouslySetInnerHTML={{ __html: idea.text }} />

@@ -12,6 +12,7 @@ import { SignOutPage } from '../pages/auth/SignOutPage/SignOutPage';
 import { EditIdeaPage } from '../pages/ideas/EditIdeaPage/EditIdeaPage';
 import { AppContextProvider } from '../lib/ctx';
 import { NotFoundPage } from '../pages/other/NotFoundPage/NotFoundPage';
+import { EditProfilePage } from '../pages/auth/EditProfilePage/EditProfilePage';
 
 export const App = () => {
   return (
@@ -24,6 +25,8 @@ export const App = () => {
               <Route path={routes.getAllIdeasRoute()} element={<AllIdeasPage />} />
               <Route path={routes.getSignUpRoute()} element={<SignUpPage />}></Route>
               <Route path={routes.getSignInRoute()} element={<SignInPage />}></Route>
+              <Route path={routes.getNewIdeaRoute()} element={<NewIdeaPage />} />
+              <Route path={routes.getEditProfileRoute()} element={<EditProfilePage />} />
               <Route
                 path={routes.getViewIdeaRoute(routes.viewIdeaRouteParams)}
                 element={<ViewideaPage />}
@@ -33,7 +36,6 @@ export const App = () => {
                 element={<EditIdeaPage />}
               />
               <Route path="*" element={<NotFoundPage />} />
-              <Route path={routes.getNewIdeaRoute()} element={<NewIdeaPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
