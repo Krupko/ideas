@@ -14,17 +14,30 @@ class CheckExistsError extends Error {
 
 const checkExistsFn = <T,>(value: T, message?: string): NonNullable<T> => {
   if (!value) {
-    throw new CheckExistsError(message);
+    const errorMessage = message ?? 'Значение не найдено';
+    throw new CheckExistsError(errorMessage);
   }
   return value;
 };
 
-class CheckAccessError extends Error {}
+class CheckAccessError extends Error {
+  constructor(message?: string) {
+    super(message);
+  }
+}
+
 const checkAccessFn = <T,>(value: T, message?: string): void => {
   if (!value) {
-    throw new CheckAccessError(message);
+    const errorMessage = message ?? 'Доступ запрещен';
+    throw new CheckAccessError(errorMessage);
   }
 };
+
+class GetAuthorizedMeError extends Error {
+  constructor(message?: string) {
+    super(message);
+  }
+}
 
 type Props = Record<string, unknown>;
 type QueryResult = UseTRPCQueryResult<unknown, unknown>;
@@ -40,9 +53,10 @@ type HelperProps<TQueryResult extends QueryResult | undefined> = {
 type SetPropsProps<TQueryResult extends QueryResult | undefined> = HelperProps<TQueryResult> & {
   checkExists: typeof checkExistsFn;
   checkAccess: typeof checkAccessFn;
+  // eslint-disable-next-line no-unused-vars
+  getAuthorizedMe: (message?: string) => NonNullable<AppContext['me']>;
 };
 
-/* eslint-disable no-unused-vars */
 type PageWrapperProps<TProps extends Props, TQueryResult extends QueryResult | undefined> = {
   redirectAuthorized?: boolean;
 
@@ -50,19 +64,19 @@ type PageWrapperProps<TProps extends Props, TQueryResult extends QueryResult | u
   authorizedOnlyTitle?: string;
   authorizedOnlyMessage?: string;
 
-  checkAccess?: (helperProps: HelperProps<TQueryResult>) => boolean;
   checkAccessTitle?: string;
   checkAccessMessage?: string;
 
+  // eslint-disable-next-line no-unused-vars
   checkExists?: (helperProps: HelperProps<TQueryResult>) => boolean;
   checkExistsTitle?: string;
   checkExistsMessage?: string;
 
   useQuery?: () => TQueryResult;
+  // eslint-disable-next-line no-unused-vars
   setProps?: (setPropsProps: SetPropsProps<TQueryResult>) => TProps;
   Page: React.FC<TProps>;
 };
-/* eslint-enable no-unused-vars */
 
 const PageWrapper = <
   TProps extends Props = {},
@@ -72,12 +86,11 @@ const PageWrapper = <
   authorizedOnlyTitle = 'Пожалуйста авторизуйтесь!',
   authorizedOnlyMessage = 'Эта страница доступна только авторизованым',
   redirectAuthorized,
-  checkAccess,
   checkAccessTitle = 'Доступ запрещен!',
   checkAccessMessage = 'У вас нет доступа к этой странице',
   checkExists,
-  checkExistsTitle,
-  checkExistsMessage,
+  checkExistsTitle = 'Объект не найден',
+  checkExistsMessage = 'Запрошенный Объект не найден',
   useQuery,
   setProps,
   Page,
@@ -108,14 +121,12 @@ const PageWrapper = <
     return <ErrorPageComponent title={authorizedOnlyTitle} message={authorizedOnlyMessage} />;
   }
 
-  const helperProps = { ctx, queryResult: queryResult as never };
-
-  if (checkAccess) {
-    const accessDenied = !checkAccess(helperProps);
-    if (accessDenied) {
-      return <ErrorPageComponent title={checkAccessTitle} message={checkAccessMessage} />;
-    }
-  }
+  const helperProps: HelperProps<TQueryResult> = {
+    ctx,
+    queryResult: (useQuery
+      ? (queryResult as QuerySuccessResult<Extract<TQueryResult, QueryResult>>)
+      : undefined) as HelperProps<TQueryResult>['queryResult'],
+  };
 
   if (checkExists) {
     const notExists = !checkExists(helperProps);
@@ -129,6 +140,13 @@ const PageWrapper = <
       ...helperProps,
       checkExists: checkExistsFn,
       checkAccess: checkAccessFn,
+      getAuthorizedMe: (message?: string) => {
+        if (!helperProps.ctx.me) {
+          const errorMessage = message ?? 'Пользователь не авторизован';
+          throw new GetAuthorizedMeError(errorMessage);
+        }
+        return helperProps.ctx.me;
+      },
     }) as TProps;
     return <Page {...props} />;
   } catch (error) {
@@ -145,6 +163,15 @@ const PageWrapper = <
         <ErrorPageComponent
           title={checkAccessTitle}
           message={error.message || checkAccessMessage}
+        />
+      );
+    }
+
+    if (error instanceof GetAuthorizedMeError) {
+      return (
+        <ErrorPageComponent
+          title={authorizedOnlyTitle}
+          message={error.message || authorizedOnlyMessage}
         />
       );
     }
