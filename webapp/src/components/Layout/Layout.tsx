@@ -9,6 +9,9 @@ import {
   getEditProfileRoute,
 } from '../../lib/routes';
 import { useMe } from '../../lib/ctx';
+import { createRef } from 'react';
+
+export const layoutContentElRef = createRef<HTMLDivElement>();
 
 export const Layout = () => {
   const me = useMe();
@@ -50,7 +53,7 @@ export const Layout = () => {
 
       <hr />
 
-      <div>
+      <div ref={layoutContentElRef}>
         <Outlet />
       </div>
     </div>
