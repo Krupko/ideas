@@ -80,11 +80,11 @@ export const EditProfilePage = withPageWrapper({
 })(({ me }) => {
   return (
     <Segment title="РЕДАКТИРОВАТЬ ПРОФИЛЬ">
-      <Segment title="General" size={2}>
+      <Segment title="Основная" size={2}>
         <General me={me} />
       </Segment>
 
-      <Segment title="Password" size={2}>
+      <Segment title="Пароль" size={2}>
         <Password />
       </Segment>
     </Segment>
