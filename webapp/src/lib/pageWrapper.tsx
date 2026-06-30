@@ -1,10 +1,11 @@
-import { type UseTRPCQueryResult, type UseTRPCQuerySuccessResult } from '@trpc/react-query/shared';
+import { type UseTRPCQueryResult } from '@trpc/react-query/shared';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext, type AppContext } from './ctx';
 import React, { useEffect } from 'react';
 import { ErrorPageComponent } from '../components/ErrorPageComponent/ErrorPageComponent';
 import { getAllIdeasRoute } from './routes';
 import { NotFoundPage } from '../pages/other/NotFoundPage/NotFoundPage';
+import { Loader } from '../components/Loader/Loader';
 
 class CheckExistsError extends Error {
   constructor(message?: string) {
@@ -41,23 +42,21 @@ class GetAuthorizedMeError extends Error {
 
 type Props = Record<string, unknown>;
 type QueryResult = UseTRPCQueryResult<unknown, unknown>;
-type QuerySuccessResult<TQueryResult extends QueryResult> = UseTRPCQuerySuccessResult<
-  NonNullable<TQueryResult['data']>,
-  null
->;
-type HelperProps<TQueryResult extends QueryResult | undefined> = {
+type HelperProps = {
   ctx: AppContext;
-  queryResult: TQueryResult extends QueryResult ? QuerySuccessResult<TQueryResult> : undefined;
+  queryResult: QueryResult | undefined;
 };
 
-type SetPropsProps<TQueryResult extends QueryResult | undefined> = HelperProps<TQueryResult> & {
+type SetPropsProps = {
+  ctx: AppContext;
+  queryResult: QueryResult | undefined;
   checkExists: typeof checkExistsFn;
   checkAccess: typeof checkAccessFn;
   // eslint-disable-next-line no-unused-vars
   getAuthorizedMe: (message?: string) => NonNullable<AppContext['me']>;
 };
 
-type PageWrapperProps<TProps extends Props, TQueryResult extends QueryResult | undefined> = {
+type PageWrapperProps<TProps extends Props> = {
   redirectAuthorized?: boolean;
 
   authorizedOnly?: boolean;
@@ -68,20 +67,17 @@ type PageWrapperProps<TProps extends Props, TQueryResult extends QueryResult | u
   checkAccessMessage?: string;
 
   // eslint-disable-next-line no-unused-vars
-  checkExists?: (helperProps: HelperProps<TQueryResult>) => boolean;
+  checkExists?: (helperProps: HelperProps) => boolean;
   checkExistsTitle?: string;
   checkExistsMessage?: string;
 
-  useQuery?: () => TQueryResult;
+  useQuery?: () => QueryResult;
   // eslint-disable-next-line no-unused-vars
-  setProps?: (setPropsProps: SetPropsProps<TQueryResult>) => TProps;
+  setProps?: (setPropsProps: SetPropsProps) => TProps;
   Page: React.FC<TProps>;
 };
 
-const PageWrapper = <
-  TProps extends Props = {},
-  TQueryResult extends QueryResult | undefined = undefined,
->({
+const PageWrapper = <TProps extends Props>({
   authorizedOnly,
   authorizedOnlyTitle = 'Пожалуйста авторизуйтесь!',
   authorizedOnlyMessage = 'Эта страница доступна только авторизованым',
@@ -94,7 +90,7 @@ const PageWrapper = <
   useQuery,
   setProps,
   Page,
-}: PageWrapperProps<TProps, TQueryResult>) => {
+}: PageWrapperProps<TProps>) => {
   const navigate = useNavigate();
   const ctx = useAppContext();
   const queryResult = useQuery?.();
@@ -108,7 +104,7 @@ const PageWrapper = <
   }, [redirectNeeded, navigate]);
 
   if (queryResult?.isLoading || redirectNeeded) {
-    return <p>Загрузка ...</p>;
+    return <Loader type="page" />;
   }
 
   if (queryResult?.isError) {
@@ -121,11 +117,9 @@ const PageWrapper = <
     return <ErrorPageComponent title={authorizedOnlyTitle} message={authorizedOnlyMessage} />;
   }
 
-  const helperProps: HelperProps<TQueryResult> = {
+  const helperProps: HelperProps = {
     ctx,
-    queryResult: (useQuery
-      ? (queryResult as QuerySuccessResult<Extract<TQueryResult, QueryResult>>)
-      : undefined) as HelperProps<TQueryResult>['queryResult'],
+    queryResult: useQuery ? queryResult : undefined,
   };
 
   if (checkExists) {
@@ -178,13 +172,10 @@ const PageWrapper = <
   }
 };
 
-export const withPageWrapper = <
-  TProps extends Props = {},
-  TQueryResult extends QueryResult | undefined = undefined,
->(
-  pageWrapperProps: Omit<PageWrapperProps<TProps, TQueryResult>, 'Page'>
+export const withPageWrapper = <TProps extends Props = {}>(
+  pageWrapperProps: Omit<PageWrapperProps<TProps>, 'Page'>
 ) => {
-  return (Page: PageWrapperProps<TProps, TQueryResult>['Page']) => {
-    return () => <PageWrapper {...pageWrapperProps} Page={Page} />;
+  return (Page: React.FC<TProps>) => {
+    return () => <PageWrapper<TProps> {...pageWrapperProps} Page={Page} />;
   };
 };

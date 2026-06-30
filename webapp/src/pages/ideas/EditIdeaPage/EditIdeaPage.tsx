@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import pick from 'lodash/pick';
 import { Segment } from '../../../components/Segment/Segment';
 import { Alert } from '../../../components/Alert/Alert';
 import { Button } from '../../../components/Button/Button';
@@ -10,6 +9,9 @@ import { zUpdateIdeaTrpcInput } from '@ideanick/backend/src/router/ideas/updateI
 import { trpc } from '../../../lib/trpc';
 import { type EditIdeaRouteParams, getViewIdeaRoute } from '../../../lib/routes';
 import { withPageWrapper } from '../../../lib/pageWrapper';
+import type { TrpcRouterOutput } from '@ideanick/backend/src/router/router';
+
+type GetIdeaOutput = NonNullable<TrpcRouterOutput['getIdea']['idea']>;
 
 export const EditIdeaPage = withPageWrapper({
   authorizedOnly: true,
@@ -21,7 +23,8 @@ export const EditIdeaPage = withPageWrapper({
   },
 
   setProps: ({ queryResult, ctx, checkExists, checkAccess }) => {
-    const idea = checkExists(queryResult.data.idea, 'Идея не найдена');
+    const queryData = queryResult?.data as { idea?: GetIdeaOutput } | undefined;
+    const idea = checkExists(queryData?.idea, 'Идея не найдена');
     checkAccess(ctx.me?.id === idea.authorId, 'Редактировать идею может только автор');
     return {
       idea,
@@ -32,7 +35,10 @@ export const EditIdeaPage = withPageWrapper({
   const updateIdea = trpc.updateIdea.useMutation();
   const { formik, buttonProps, alertProps } = useForm({
     initialValues: {
-      ...pick(idea, ['name', 'nick', 'description', 'text']),
+      name: idea.name ?? '',
+      nick: idea.nick ?? '',
+      description: idea.description ?? '',
+      text: idea.text ?? '',
       email: idea.email ?? '',
     },
     validationSchema: zUpdateIdeaTrpcInput.omit({ ideaId: true }),

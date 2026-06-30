@@ -1,0 +1,23 @@
+@use 'sass:math';
+@use '../../scss/settings/mixins-loader.scss' as *;
+
+.loader {
+  &.type-page {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    min-height: inherit;
+
+    @include loader($borderWidth: 5px, $size: 60px, $color: var(--color-green));
+  }
+
+  &.type-section {
+    display: block;
+    width: 100%;
+    height: 80px;
+    position: relative;
+
+    @include loader($borderWidth: 5px, $size: 60px, $color: var(--color-green));
+  }
+}

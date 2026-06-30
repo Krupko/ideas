@@ -4,6 +4,7 @@ import { trpc } from '../../../lib/trpc';
 import { withPageWrapper } from '../../../lib/pageWrapper';
 import { useNavigate } from 'react-router-dom';
 import { getAllIdeasRoute } from '../../../lib/routes';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const SignOutPage = withPageWrapper({
   // redirectAuthorized: true,
@@ -15,5 +16,5 @@ export const SignOutPage = withPageWrapper({
     void trpcUtils.invalidate().then(() => {});
     navigate(getAllIdeasRoute());
   }, [navigate, trpcUtils]);
-  return <p>Loading...</p>;
+  return <Loader type="page" />;
 });

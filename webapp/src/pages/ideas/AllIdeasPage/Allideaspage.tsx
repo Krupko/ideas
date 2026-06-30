@@ -6,6 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { Segment } from '../../../components/Segment/Segment';
 import { Alert } from '../../../components/Alert/Alert';
 import { layoutContentElRef } from '../../../components/Layout/Layout';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const AllIdeasPage = () => {
   const {
@@ -31,7 +32,7 @@ export const AllIdeasPage = () => {
   return (
     <Segment title="Просто вывод списка">
       {isLoading || isRefetching ? (
-        <div>Loading...</div>
+        <Loader type="section" />
       ) : isError ? (
         <Alert color="red">{error.message}</Alert>
       ) : (
@@ -43,7 +44,11 @@ export const AllIdeasPage = () => {
             }
           }}
           hasMore={hasNextPage}
-          loader={<div key="losder">Загрузка</div>}
+          loader={
+            <div key="losder">
+              <Loader type="section" />
+            </div>
+          }
           getScrollParent={() => layoutContentElRef.current}
           useWindow={
             (layoutContentElRef.current &&
@@ -62,7 +67,9 @@ export const AllIdeasPage = () => {
                     </Link>
                   }
                   description={idea.description}
-                />
+                >
+                  Likes: {idea.likesCount}
+                </Segment>
               </div>
             ))}
         </InfiniteScroll>
