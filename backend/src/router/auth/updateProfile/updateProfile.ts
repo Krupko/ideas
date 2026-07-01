@@ -6,7 +6,7 @@ export const updateProfileTrpcRoute = trpc.procedure
   .input(zUpdateProfileTrpcInput)
   .mutation(async ({ ctx, input }) => {
     if (!ctx.me) {
-      throw new Error('НЕФВТОРИЗОВАННЫЙ');
+      throw new Error('НЕАВТОРИЗОВАННЫЙ');
     }
     if (ctx.me.nick !== input.nick) {
       const exUser = await ctx.prisma.user.findUnique({

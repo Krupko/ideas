@@ -10,7 +10,7 @@ export const updatePasswordTrpcRoute = trpc.procedure
     }
 
     if (ctx.me.password !== getPasswordHash(input.oldPassword)) {
-      throw new Error('НЕ ПРАВИЛЬНЫЙ СТАРЫЙ ПАРОЛЬ');
+      throw new Error('НЕПРАВИЛЬНЫЙ СТАРЫЙ ПАРОЛЬ');
     }
 
     const updatedMe = await ctx.prisma.user.update({

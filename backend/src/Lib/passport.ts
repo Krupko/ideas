@@ -26,7 +26,7 @@ export const applyPassportToExpressApp = (expressApp: Express, ctx: AppContext):
             done(null, user);
           })
           .catch((error) => {
-            done(error, false);
+            done(error, null);
           });
       }
     )

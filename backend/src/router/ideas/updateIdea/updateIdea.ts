@@ -32,7 +32,7 @@ export const updateIdeaTrpcRoute = trpc.procedure
       });
 
       if (exIdea) {
-        throw new Error('ИДЕЯ С ТАКИМ НОМЕРОМ УЖЕ СУЩЕСТВУЕТ');
+        throw new Error('ИДЕЯ С ТАКИМ НИКОМ УЖЕ СУЩЕСТВУЕТ');
       }
     }
 

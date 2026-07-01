@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { trpc } from '../../../Lib/trpc';
-import _ from 'lodash';
 
 export const getIdeaTrpcRoute = trpc.procedure
   .input(z.object({ ideaNick: z.string() }))
@@ -18,25 +17,19 @@ export const getIdeaTrpcRoute = trpc.procedure
         ideasLikes: {
           select: {
             id: true,
-          },
-          where: {
-            userId: ctx.me?.id,
-          },
-        },
-        _count: {
-          select: {
-            ideasLikes: true,
+            userId: true,
           },
         },
       },
     });
 
-    const isLikedByMe = !!rawIdea?.ideasLikes.length;
-    const likesCount = rawIdea?._count.ideasLikes || 0;
+    const likesCount = rawIdea?.ideasLikes.length ?? 0;
+    const isLikedByMe = !!ctx.me && rawIdea?.ideasLikes.some((like) => like.userId === ctx.me?.id);
     const idea = rawIdea && {
-      ..._.omit(rawIdea, ['ideasLikes', '_count']),
-      isLikedByMe,
+      ...rawIdea,
+      author: rawIdea.author,
       likesCount,
+      isLikedByMe,
     };
     return { idea };
   });

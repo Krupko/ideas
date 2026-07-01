@@ -13,4 +13,5 @@ export interface FormComponentProps<T> {
   label: string;
   formik: FormikProps<T>;
   type?: 'text' | 'password' | 'email' | 'tel';
+  maxWidth?: number | string;
 }

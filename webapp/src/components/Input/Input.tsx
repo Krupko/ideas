@@ -7,6 +7,7 @@ export const Input = <T extends FormikValues>({
   name,
   label,
   formik,
+  maxWidth,
   type = 'text',
 }: FormComponentProps<T>) => {
   const value = formik.values[name];
@@ -16,7 +17,10 @@ export const Input = <T extends FormikValues>({
   const invalid = !!touched && !!error;
 
   return (
-    <div className={cn({ [css.wrapper]: true, [css.disabled]: disabled })}>
+    <div
+      className={cn({ [css.wrapper]: true, [css.disabled]: disabled })}
+      style={maxWidth ? { maxWidth } : undefined}
+    >
       <label htmlFor={name as string}>{label}</label>
       <br />
       <input

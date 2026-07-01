@@ -12,17 +12,16 @@ type UseFormParams<T extends z.ZodRawShape> = {
   showValidationAlert?: boolean;
   initialValues: z.infer<z.ZodObject<T>>;
   validationSchema?: z.ZodObject<T>;
-  onSubmit: (
+  onSubmit?: (
     arg0: z.infer<z.ZodObject<T>>,
     arg1: FormikHelpers<z.infer<z.ZodObject<T>>>
   ) => Promise<unknown>;
 };
-/* eslint-enable no-unused-vars */
 
 export const useForm = <T extends z.ZodRawShape>({
   successMessage = false,
   resetOnSuccess = true,
-  showValidationAlert = false,
+  showValidationAlert,
   initialValues,
   validationSchema,
   onSubmit,
@@ -34,6 +33,9 @@ export const useForm = <T extends z.ZodRawShape>({
     initialValues,
     validationSchema: validationSchema && toFormikValidationSchema(validationSchema),
     onSubmit: async (_values, _formikHelpers) => {
+      if (!onSubmit) {
+        return;
+      }
       try {
         setSubmittingError(null);
         await onSubmit(_values, _formikHelpers);

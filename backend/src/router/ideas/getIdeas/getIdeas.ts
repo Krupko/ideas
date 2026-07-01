@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { trpc } from '../../../Lib/trpc';
 import { zGetIdeasTrpcInput } from './input';
 
@@ -14,12 +13,41 @@ export const getIdeasTrpcRoute = trpc.procedure
         email: true,
         createdAt: true,
         serialNumber: true,
-        _count: {
-          select: {
-            ideasLikes: true,
-          },
-        },
+        ...(ctx.me
+          ? {
+              ideasLikes: {
+                select: {
+                  userId: true,
+                },
+                where: { userId: ctx.me.id },
+              },
+            }
+          : {}),
       },
+      where: !input.search
+        ? undefined
+        : {
+            OR: [
+              {
+                name: {
+                  contains: input.search,
+                  mode: 'insensitive',
+                },
+              },
+              {
+                description: {
+                  contains: input.search,
+                  mode: 'insensitive',
+                },
+              },
+              {
+                text: {
+                  contains: input.search,
+                  mode: 'insensitive',
+                },
+              },
+            ],
+          },
       orderBy: [
         {
           createdAt: 'desc',
@@ -36,8 +64,9 @@ export const getIdeasTrpcRoute = trpc.procedure
     const nextCursor = nextIdea?.serialNumber;
     const rawIdeasExceptNext = rawIdeas.slice(0, input.limit);
     const ideasExceptNext = rawIdeasExceptNext.map((idea) => ({
-      ..._.omit(idea, ['_count']),
-      likesCount: idea._count.ideasLikes,
+      ...idea,
+      likesCount: idea.ideasLikes?.length ?? 0,
+      isLikedByMe: !!idea.ideasLikes?.length,
     }));
     return { ideas: ideasExceptNext, nextCursor };
   });
